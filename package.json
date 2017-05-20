@@ -1,0 +1,35 @@
+{
+  "name": "FoundHound",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "android-dev": "ENVFILE=.env.dev react-native run-android",
+    "android-staging": "ENVFILE=.env.staging react-native run-android",
+    "android-prod": "ENVFILE=.env.prod react-native run-android",
+    "build-android-prod": "export ENVFILE=.env.prod && cd android && ./gradlew assembleRelease && cd .."
+  },
+  "dependencies": {
+    "firebase": "^3.7.8",
+    "native-base": "^2.1.3",
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.44.0",
+    "react-native-config": "^0.4.2",
+    "react-native-lock": "^0.6.0",
+    "react-native-router-flux": "^3.39.1",
+    "react-native-vector-icons": "^4.1.1",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-jest": "20.0.3",
+    "babel-preset-react-native": "1.9.2",
+    "jest": "20.0.3",
+    "react-test-renderer": "16.0.0-alpha.6"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

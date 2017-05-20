@@ -1,0 +1,15 @@
+{
+    "id": "000",
+    "first_name": "Joe",
+    "last_name": "Dirt",
+    "image": "https://pbs.twimg.com/profile_images/575377866658971648/8SSEhlFC.jpeg",
+    "street": "75 Nunnemaker St.",
+    "city": "Silvertown",
+    "state": "Idaho",
+    "zip_code": "43250",
+    "home_phone": "111-111-1111",
+    "mobile_phone": "222-222-2222",
+    "work_phone": "333-333-3333",
+    "email": "joedirt@kxla.com",
+    "veterinarian": "Dr. Zander Kelly"
+}

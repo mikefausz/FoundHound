@@ -1,0 +1,52 @@
+[
+  {
+    "id": "111",
+    "name": "Harley",
+    "breed": "Pit Bull",
+    "age": "2",
+    "color": "",
+    "vaccinations": "",
+    "illnesses": "",
+    "image": "https://t1.ea.ltmcdn.com/en/images/4/3/2/img_pit_bull_breeds_and_types_234_600.jpg"
+  },
+  {
+    "id": "222",
+    "name": "Rya",
+    "breed": "Cocker Spaniel",
+    "age": "4",
+    "color": "",
+    "vaccinations": "",
+    "illnesses": "",
+    "image": "http://www.ecsca.info/images/slideshow/12088036_690809867722202_3733425297016656207_n.jpg"
+  },
+  {
+    "id": "333",
+    "name": "Kayle",
+    "breed": "American Staffordshire Terrier",
+    "age": "3",
+    "color": "",
+    "vaccinations": "",
+    "illnesses": "",
+    "image": "http://www.dog-breeds-expert.com/images/american-staffordshire-terrier-300.jpg"
+  },
+  {
+    "id": "444",
+    "name": "Meatball",
+    "breed": "Pit Bull",
+    "age": "4",
+    "color": "",
+    "vaccinations": "",
+    "illnesses": "",
+    "image": "http://i.imgur.com/8O4qTUg.jpg"
+  },
+  {
+    "id": "444",
+    "name": "Doge",
+    "breed": "Shiba Inu",
+    "age": "6",
+    "color": "",
+    "vaccinations": "",
+    "illnesses": "",
+    "image": "https://pbs.twimg.com/profile_images/378800000822867536/3f5a00acf72df93528b6bb7cd0a4fd0c.jpeg"
+  },
+]
