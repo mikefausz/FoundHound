@@ -2,7 +2,7 @@
 
 ### Setup
 
-First install dependencies with `npm start`.
+First install dependencies with `npm install`.
 
 We will eventually use Auth 0's Passwordless auth system via `react-native-lock`, 
 but for now I've added a simple login with Firebase. Either ask me for my app credentials, 
@@ -22,5 +22,5 @@ FIREBASE_MESSAGING_SENDER_ID={messagingSenderId}
 Then you should be ready to run the project on an Android [device](https://facebook.github.io/react-native/releases/0.23/docs/running-on-device-android.html#content)
 or [emulator](https://facebook.github.io/react-native/releases/0.23/docs/android-setup.html).
 
-When you have a device connected or an emulator running, use `npm run android-dev` to start the project. 
-You'll find other run scripts in the `package.json`.
+When you have a device connected or an emulator running, use `npm run android-dev` to set the environment config
+and start the project. You'll find other run scripts in the `package.json`.
