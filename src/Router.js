@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm';
 import PetScanner from './components/PetScanner';
 import PetList from './components/PetList';
 import PetDetail from './components/PetDetail';
+import PetScanList from './components/PetScanList';
 import PetEdit from './components/PetEdit';
 import ProfileDetail from './components/ProfileDetail';
 import ProfileEdit from './components/ProfileEdit';
@@ -18,7 +19,7 @@ const RouterComponent = () => {
                     component={LoginForm}
                 />
             </Scene>
-            
+
             <Scene key="drawer" component={NavigationDrawer} open={false} hideNavBar>
                 <Scene key="main" tabs={true}>
                     <Scene
@@ -28,6 +29,10 @@ const RouterComponent = () => {
                     <Scene
                         key="pet_detail"
                         component={PetDetail}
+                    />
+                    <Scene
+                        key="pet_scan_list"
+                        component={PetScanList}
                     />
                     <Scene
                         key="pet_edit"
