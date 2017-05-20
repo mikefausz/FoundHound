@@ -1,7 +1,6 @@
-FoundHound
-==========
+#FoundHound
 
-## Setup
+### Setup
 
 First install dependencies with `npm start`.
 
