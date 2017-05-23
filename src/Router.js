@@ -5,7 +5,7 @@ import PetScanner from './components/PetScanner';
 import PetList from './components/PetList';
 import PetDetail from './components/PetDetail';
 import PetScanList from './components/PetScanList';
-import PetEdit from './components/PetEdit';
+import PetCreate from './components/PetCreate';
 import ProfileDetail from './components/ProfileDetail';
 import ProfileEdit from './components/ProfileEdit';
 import NavigationDrawer from './components/NavigationDrawer';
@@ -35,8 +35,12 @@ const RouterComponent = () => {
                         component={PetScanList}
                     />
                     <Scene
+                        key="pet_create"
+                        component={PetCreate}
+                    />
+                    <Scene
                         key="pet_edit"
-                        component={PetEdit}
+                        component={PetCreate}
                     />
                     <Scene
                         key="pet_scan"

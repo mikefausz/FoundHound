@@ -1,13 +1,60 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
 import { Container, Content, Header, Left, Body, Right, Title, Form, Item, Label, Input, Text, Button, Icon } from 'native-base';
 
 class PetEdit extends Component {
     constructor(props) {
         super(props);
 
-        this.state = props.pet;
+        // EDIT
+        // If pet provided, fill inputs with current value
+        if(props.pet) {
+            this.state = props.pet;
+        }
+        // CREATE
+        // No pet provided, initialize values
+        else {
+            this.state = {
+                  name: '',
+                  age: '',
+                  breed: '',
+                  color: '',
+                  vaccinations: '',
+                  illnesses: ''
+            }
+        }
+
+        this.state.loading = false;
+    }
+
+    submitForm() {
+        // TODO Validate form
+
+        const userPetsRef = firebase.database().ref('pets/uBT0kMeeBZXRSCkrxi6GYFcLgtO2');
+        // const userPetsRef = firebase.database().ref(`pets/${this.props.user._id}`);
+
+        if(this.props.name == 'pet_create') {
+            const newPetRef = userPetsRef.push();
+            newPetRef.set(this.state)
+                .then((data) => {
+                    console.log('SUCCESS', data);
+                    Actions.pet_detail({ pet: this.state });
+                }).catch((err) => {
+                    console.log('ERROR', err);
+                });
+        }
+        else {
+            const editPetRef = userPetsRef.child(this.state.pet.$id);
+            editPetRef.set(this.state)
+                .then((data) => {
+                    console.log('SUCCESS', data);
+                    Actions.pet_detail({ pet: this.state });
+                }).catch((err) => {
+                    console.log('ERROR', err);
+                });
+        }
     }
 
     render() {
@@ -29,7 +76,7 @@ class PetEdit extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Edit Profile</Title>
+                        <Title>{ this.props.name == 'pet_create' ? 'Add New Pet' : 'Edit Pet Profile' }</Title>
                     </Body>
                     <Right />
                 </Header>
@@ -57,6 +104,13 @@ class PetEdit extends Component {
                             />
                         </Item>
                         <Item fixedLabel>
+                            <Label>Color</Label>
+                            <Input
+                                onChangeText={color => this.setState({ color })}
+                                value={color}
+                            />
+                        </Item>
+                        <Item fixedLabel>
                             <Label>Vaccinations</Label>
                             <Input
                                 onChangeText={vaccinations => this.setState({ vaccinations })}
@@ -70,10 +124,10 @@ class PetEdit extends Component {
                                 value={illnesses}
                             />
                         </Item>
-                        <Button block onPress={() => Actions.pet_detail({ pet: this.props.pet })}>
+                        <Button block onPress={() => this.submitForm()}>
                             <Text>Save</Text>
                         </Button>
-                        <Button block danger onPress={() => Actions.pet_detail({ pet: this.props.pet })}>
+                        <Button block danger onPress={() => Actions.pet_detail({ pet: this.state.pet })}>
                             <Text>Cancel</Text>
                         </Button>
                     </Form>

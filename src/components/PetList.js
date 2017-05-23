@@ -49,7 +49,11 @@ class PetList extends Component {
                     <Body>
                         <Title>Your Pets</Title>
                     </Body>
-                    <Right />
+                    <Right>
+                        <Button transparent onPress={() => Actions.pet_create()}>
+                            <Text>Add Pet</Text>
+                        </Button>
+                    </Right>
                 </Header>
                 <Content>
                     <List dataArray={this.props.pets} renderRow={this.renderRow} />
