@@ -4,10 +4,6 @@ import { Actions } from 'react-native-router-flux';
 import { Container, Content, Header, Left, Body, Right, Title, Card, CardItem, Thumbnail, Text, Button, Icon } from 'native-base';
 
 class ProfileDetail extends Component {
-    componentWillMount() {
-        // TODO Get user profile from API
-    }
-
     render() {
         const {
           first_name,
@@ -24,6 +20,7 @@ class ProfileDetail extends Component {
           veterinarian
         } = this.props.user;
 
+        // TODO Cleaner placeholders than 'Not given'
         return (
             <Container>
                 <Header>

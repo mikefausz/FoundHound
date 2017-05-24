@@ -9,13 +9,13 @@ class ProfileEdit extends Component {
     constructor(props) {
         super(props);
 
+        // TODO Add loading spinner on saveProfile()
         this.state = props.user
     }
 
     saveProfile() {
       const _this = this;
 
-      console.log('state', this.state);
       const userRef = firebase.database().ref('users/' + this.state._id);
       userRef.set(this.state)
           .then(() => {
