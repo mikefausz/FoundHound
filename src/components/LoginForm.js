@@ -27,6 +27,8 @@ class LoginForm extends Component {
     }
 
     attemptLogin() {
+        const _this = this;
+
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then(user => {
 
@@ -35,7 +37,7 @@ class LoginForm extends Component {
                 userRef.once('value')
                     .then(function(snapshot) {
                         console.log('Got user profile', snapshot.val());
-                        this.props.loginUserSuccess(snapshot.val());
+                        _this.props.loginUserSuccess(snapshot.val());
                         Actions.drawer();
                     })
                     .catch((err) => {
@@ -57,7 +59,7 @@ class LoginForm extends Component {
                         };
 
                         // Store in state
-                        this.props.loginUserSuccess(newUser);
+                        _this.props.loginUserSuccess(newUser);
 
                         // Store in db and redirect
                         const userRef = firebase.database().ref('users/' + user.uid);

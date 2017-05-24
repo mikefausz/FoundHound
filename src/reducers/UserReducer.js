@@ -1,7 +1,7 @@
-import data from './UserProfile.json';
+// import data from './UserProfile.json';
 
 import {
-  LOGIN_USER
+  LOGIN_USER_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {};
@@ -9,9 +9,9 @@ const INITIAL_STATE = {};
 export default (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
-    // case LOGIN_USER:
-    //   return { action.payload };
+    case LOGIN_USER_SUCCESS:
+      return action.payload;
     default:
-      return data;
+      return state;
   }
 };

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body } from 'native-base';
+import { View, Dimensions } from 'react-native'
+import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body, Spinner } from 'native-base';
 import firebase from 'firebase';
 import { petsFetchSuccess } from '../actions';
 
@@ -10,12 +11,48 @@ class PetList extends Component {
         super(props);
 
         this.state = {
-            loading: true
+            loading: true,
+            error: ''
         }
     }
 
     componentWillMount() {
-        // TODO Get user's pets from API
+        const _this = this;
+        this.setState({
+          loading: true,
+          error: ''
+        });
+
+        // Get user's pets from db, update state
+        var userPetsRef = firebase.database().ref('pets/' + this.props.user._id);
+        userPetsRef.once('value')
+            .then(function(snapshot) {
+                console.log('Got user pets', snapshot.val());
+                _this.props.petsFetchSuccess(snapshot.val());
+                _this.setState({
+                  loading: false
+                });
+            })
+            .catch((error) => {
+                console.log('ERROR', error);
+                _this.setState({
+                  loading: false,
+                  error
+                });
+            });
+    }
+
+    renderContent() {
+        if(this.state.loading) {
+            const { height: screenHeight } = Dimensions.get('window');
+
+            return (
+                <View style={{ flex: 1, height: screenHeight, justifyContent: 'center'}}>
+                    <Spinner color='blue' />
+                </View>
+            );
+        }
+        return <List dataArray={this.props.pets} renderRow={this.renderRow} />;
     }
 
     renderRow(pet) {
@@ -56,7 +93,7 @@ class PetList extends Component {
                     </Right>
                 </Header>
                 <Content>
-                    <List dataArray={this.props.pets} renderRow={this.renderRow} />
+                  {this.renderContent()}
                 </Content>
             </Container>
         );
@@ -64,7 +101,10 @@ class PetList extends Component {
 }
 
 const mapStateToProps = state => {
-    return { pets: state.pets };
+    return {
+      user: state.user,
+      pets: state.pets
+    };
 };
 
 export default connect(mapStateToProps, { petsFetchSuccess })(PetList);

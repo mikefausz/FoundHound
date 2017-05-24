@@ -1,4 +1,4 @@
-import data from './PetList.json';
+// import data from './PetList.json';
 
 import {
   PETS_FETCH_SUCCESS
@@ -8,10 +8,10 @@ const INITIAL_STATE = {};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    // case PETS_FETCH_SUCCESS:
-    //   console.log(action);
-    //   return action.payload;
+    case PETS_FETCH_SUCCESS:
+      console.log(action);
+      return action.payload;
     default:
-      return data;
+      return state;
   }
 };
