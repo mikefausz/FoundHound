@@ -41,30 +41,30 @@ class ProfileDetail extends Component {
                     <Card style={{ flex: 0 }}>
                         <CardItem header>
                             <Left>
-                                <Thumbnail source={{ uri: image }} />
+                                <Thumbnail source={{ uri: image || 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png'}} />
                                 <Body>
-                                  <Text>{first_name} {last_name}</Text>
-                                  <Text note>{street}</Text>
-                                  <Text note>{city}, {state} {zip_code}</Text>
+                                  <Text>{first_name || 'Not given'} {last_name || 'Not given'}</Text>
+                                  <Text note>{street || 'Not given'}</Text>
+                                  <Text note>{city || 'Not given'}, {state || 'Not given'} {zip_code || 'Not given'}</Text>
                                 </Body>
                             </Left>
                         </CardItem>
                         <CardItem>
                             <Body>
                                 <Text>Home Phone</Text>
-                                <Text note>{home_phone}</Text>
+                                <Text note>{home_phone || 'Not given'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem>
                             <Body>
                                 <Text>Mobile Phone</Text>
-                                <Text note>{mobile_phone}</Text>
+                                <Text note>{mobile_phone || 'Not given'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem>
                             <Body>
                                 <Text>Work Phone</Text>
-                                <Text note>{work_phone}</Text>
+                                <Text note>{work_phone || 'Not given'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem>
@@ -76,12 +76,12 @@ class ProfileDetail extends Component {
                         <CardItem>
                             <Body>
                                 <Text>Veterinarian</Text>
-                                <Text note>{veterinarian}</Text>
+                                <Text note>{veterinarian || 'Not given'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem footer>
                             <Body>
-                                <Button block onPress={() => Actions.profile_edit({ user: this.props.user })}>
+                                <Button block onPress={() => Actions.profile_edit()}>
                                     <Text>Edit Profile</Text>
                                 </Button>
                             </Body>

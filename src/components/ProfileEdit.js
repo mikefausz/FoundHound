@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
 import { Container, Content, Header, Left, Body, Right, Title, Form, Item, Label, Input, Text, Button, Icon } from 'native-base';
+import { loginUserSuccess } from '../actions';
 
 class ProfileEdit extends Component {
     constructor(props) {
@@ -10,6 +12,21 @@ class ProfileEdit extends Component {
         this.state = props.user
     }
 
+    saveProfile() {
+      const _this = this;
+
+      console.log('state', this.state);
+      const userRef = firebase.database().ref('users/' + this.state._id);
+      userRef.set(this.state)
+          .then(() => {
+              console.log('Saved profile to db');
+              _this.props.loginUserSuccess(_this.state);
+              Actions.profile_detail();
+          })
+          .catch((err) => {
+              console.log('ERROR', err);
+          });
+    }
     render() {
         const {
             first_name,
@@ -77,6 +94,13 @@ class ProfileEdit extends Component {
                             />
                         </Item>
                         <Item fixedLabel>
+                            <Label>Zip Code</Label>
+                            <Input
+                                onChangeText={zip_code => this.setState({ zip_code })}
+                                value={zip_code}
+                            />
+                        </Item>
+                        <Item fixedLabel>
                             <Label>Home Phone</Label>
                             <Input
                                 onChangeText={home_phone => this.setState({ home_phone })}
@@ -102,6 +126,7 @@ class ProfileEdit extends Component {
                             <Input
                                 onChangeText={email => this.setState({ email })}
                                 value={email}
+                                editable={false}
                             />
                         </Item>
                         <Item fixedLabel>
@@ -111,7 +136,7 @@ class ProfileEdit extends Component {
                                 value={veterinarian}
                             />
                         </Item>
-                        <Button block onPress={() => Actions.profile_detail()}>
+                        <Button block onPress={() => this.saveProfile()}>
                             <Text>Save</Text>
                         </Button>
                         <Button block danger onPress={() => Actions.profile_detail()}>
@@ -124,4 +149,8 @@ class ProfileEdit extends Component {
     }
 }
 
-export default ProfileEdit;
+const mapStateToProps = state => {
+  return { user: state.user };
+};
+
+export default connect(mapStateToProps, { loginUserSuccess })(ProfileEdit);
