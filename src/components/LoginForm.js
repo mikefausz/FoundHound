@@ -27,20 +27,48 @@ class LoginForm extends Component {
     }
 
     attemptLogin() {
-        console.log('whatthefuck');
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then(user => {
-                console.log('hey 1');
-                this.props.loginUserSuccess(user);
-                Actions.drawer();
+
+                // User successfully signed in, get profile from db and redirect
+                var userRef = firebase.database().ref('users/' + user.uid);
+                userRef.once('value')
+                    .then(function(snapshot) {
+                        console.log('Got user profile', snapshot.val());
+                        this.props.loginUserSuccess(snapshot.val());
+                        Actions.drawer();
+                    })
+                    .catch((err) => {
+                        console.log('ERROR', err);
+                    });
             })
             .catch(error => {
                 console.log(error);
                 firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
                     .then(user => {
-                        console.log('hey 2');
-                        this.props.loginUserSuccess(user);
-                        Actions.drawer();
+
+                        // User successfully created
+                        console.log('Created user: ' + user.uid + ', adding user profile to db...');
+
+                        // Create new user profile
+                        const newUser = {
+                            _id: user.uid,
+                            email: this.state.email
+                        };
+
+                        // Store in state
+                        this.props.loginUserSuccess(newUser);
+
+                        // Store in db and redirect
+                        const userRef = firebase.database().ref('users/' + user.uid);
+                        userRef.set(newUser)
+                            .then(() => {
+                                console.log('Added user to db');
+                                Actions.drawer();
+                            })
+                            .catch((err) => {
+                                console.log('ERROR', err);
+                            });
                     })
                     .catch(error => console.log(error));
             });
