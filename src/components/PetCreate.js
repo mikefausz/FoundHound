@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import { Container, Content, Header, Left, Body, Right, Title, Form, Item, Label, Input, Text, Button, Icon } from 'native-base';
 
-class PetEdit extends Component {
+class PetCreate extends Component {
     constructor(props) {
         super(props);
 
@@ -32,14 +32,16 @@ class PetEdit extends Component {
     submitForm() {
         // TODO Validate form
 
+        // TODO Pull in actual user ID
         const userPetsRef = firebase.database().ref('pets/uBT0kMeeBZXRSCkrxi6GYFcLgtO2');
         // const userPetsRef = firebase.database().ref(`pets/${this.props.user._id}`);
 
         if(this.props.name == 'pet_create') {
             const newPetRef = userPetsRef.push();
-            newPetRef.set(this.state)
-                .then((data) => {
-                    console.log('SUCCESS', data);
+            console.log(newPetRef);
+            newPetRef.set({ ...this.state, _id: newPetRef.key })
+                .then(() => {
+                    console.log('SUCCESS');
                     Actions.pet_detail({ pet: this.state });
                 }).catch((err) => {
                     console.log('ERROR', err);
@@ -146,4 +148,4 @@ class PetEdit extends Component {
     }
 };
 
-export default PetEdit;
+export default PetCreate;
