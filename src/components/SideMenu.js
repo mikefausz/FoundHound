@@ -7,7 +7,7 @@ import { Container, Content, List, ListItem, Text, Icon, Thumbnail, Badge, Left,
 class SideMenu extends Component {
     render() {
         const { user } = this.props;
-        
+
         return (
             <Container>
                 <Content>
@@ -32,6 +32,15 @@ class SideMenu extends Component {
                             </Left>
                             <Body>
                                 <Text>Your Pets</Text>
+                            </Body>
+                            <Right/>
+                        </ListItem>
+                        <ListItem icon onPress={()=> Actions.pet_create()}>
+                            <Left>
+                                <Icon name="add" />
+                            </Left>
+                            <Body>
+                                <Text>Add Pet</Text>
                             </Body>
                             <Right/>
                         </ListItem>
