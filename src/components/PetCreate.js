@@ -57,6 +57,15 @@ class PetEdit extends Component {
         }
     }
 
+    cancel() {
+        if(this.props.name =='pet_create') {
+            Actions.pet_list();
+        }
+        else {
+            Actions.pet_detail({ pet: this.state });
+        }
+    }
+
     render() {
         const {
             name,
@@ -127,7 +136,7 @@ class PetEdit extends Component {
                         <Button block onPress={() => this.submitForm()}>
                             <Text>Save</Text>
                         </Button>
-                        <Button block danger onPress={() => Actions.pet_detail({ pet: this.state.pet })}>
+                        <Button block danger onPress={() => this.cancel()}>
                             <Text>Cancel</Text>
                         </Button>
                     </Form>
