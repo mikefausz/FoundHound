@@ -10,7 +10,15 @@ class PetDetail extends Component {
     }
 
     render() {
-        const { name, breed, age, image } = this.props.pet;
+        const {
+          name, 
+          breed, 
+          age, 
+          image, 
+          color, 
+          vaccinations, 
+          illnesses 
+        } = this.props.pet;
 
         return (
             <Container>
@@ -45,19 +53,19 @@ class PetDetail extends Component {
                         <CardItem>
                             <Body>
                                 <Text>Color</Text>
-                                <Text note>Brown</Text>
+                                <Text note>{color || 'None listed'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem>
                             <Body>
                                 <Text>Vaccinations</Text>
-                                <Text note>All of em</Text>
+                                <Text note>{vaccinations || 'None listed'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem>
                             <Body>
                                 <Text>Illnesses</Text>
-                                <Text note>Is an asshole</Text>
+                                <Text note>{illnesses || 'None listed'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem footer>
