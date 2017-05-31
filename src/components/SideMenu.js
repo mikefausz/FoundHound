@@ -6,14 +6,19 @@ import { Container, Content, List, ListItem, Text, Icon, Thumbnail, Badge, Left,
 
 class SideMenu extends Component {
     render() {
-        const { user } = this.props;
+        const {
+          first_name,
+          last_name,
+          email,
+          image
+        } = this.props.user;
 
         return (
             <Container>
                 <Content>
                     <View style={styles.headerStyle}>
-                        <Thumbnail large source={{ uri:'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png' }} />
-                        <H3 style={{ color: '#fff' }}>{user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.email}</H3>
+                        <Thumbnail large source={{ uri: image || 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png' }} />
+                        <H3 style={{ color: '#fff' }}>{first_name && last_name ? `${first_name} ${last_name}` : email}</H3>
                     </View>
 
                     <List>
