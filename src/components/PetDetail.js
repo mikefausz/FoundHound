@@ -11,13 +11,13 @@ class PetDetail extends Component {
 
     render() {
         const {
-          name, 
-          breed, 
-          age, 
-          image, 
-          color, 
-          vaccinations, 
-          illnesses 
+          name,
+          breed,
+          age,
+          image,
+          color,
+          vaccinations,
+          illnesses
         } = this.props.pet;
 
         return (
@@ -70,7 +70,7 @@ class PetDetail extends Component {
                         </CardItem>
                         <CardItem footer>
                             <Body>
-                                <Button block onPress={() => Actions.pet_scan_list()}>
+                                <Button block onPress={() => Actions.pet_scan_list({ pet: this.props.pet })}>
                                     <Text>See Scan History</Text>
                                 </Button>
                                 <Button block danger onPress={() => this.markLost()}>

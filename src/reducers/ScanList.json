@@ -1,86 +1,16 @@
 [
   {
-    "id": "111",
-    "timestamp": "2017-05-20T21:06:19.608Z",
+    "_id": "111",
+    "created_at": "2017-05-20T21:06:19.608Z",
+    "coordinates": {
+      "latitude": 34.2310,
+      "longitude": 79.2310,
+    },
     "location": {
         "street_address": "36 S Broad St",
         "city": "Philadelphia",
         "state": "PA",
         "zip_code": "19146",
-        "coordinates": {
-          "latitude": 34.2310,
-          "longitude": 79.2310,
-        }
-    }
-  },
-  {
-    "id": "111",
-    "timestamp": "2017-05-19T21:12:49.608Z",
-    "location": {
-        "street_address": "1231 Reed St",
-        "city": "Philadelphia",
-        "state": "PA",
-        "zip_code": "19146",
-        "coordinates": {
-          "latitude": 34.2310,
-          "longitude": 79.2310,
-        }
-    }
-  },
-  {
-    "id": "111",
-    "timestamp": "2017-05-17T21:02:13.608Z",
-    "location": {
-        "street_address": "213 E Passyunk St",
-        "city": "Philadelphia",
-        "state": "PA",
-        "zip_code": "19146",
-        "coordinates": {
-          "latitude": 34.2310,
-          "longitude": 79.2310,
-        }
-    }
-  },
-  {
-    "id": "111",
-    "timestamp": "2017-05-08T21:06:19.608Z",
-    "location": {
-        "street_address": "336 South St",
-        "city": "Philadelphia",
-        "state": "PA",
-        "zip_code": "19146",
-        "coordinates": {
-          "latitude": 34.2310,
-          "longitude": 79.2310,
-        }
-    }
-  },
-  {
-    "id": "111",
-    "timestamp": "2017-05-03T14:56:19.608Z",
-    "location": {
-        "street_address": "143 Wharton St",
-        "city": "Philadelphia",
-        "state": "PA",
-        "zip_code": "19146",
-        "coordinates": {
-          "latitude": 34.2310,
-          "longitude": 79.2310,
-        }
-    }
-  },
-  {
-    "id": "111",
-    "timestamp": "2017-04-20T04:03:19.608Z",
-    "location": {
-        "street_address": "2236 Oregon St",
-        "city": "Philadelphia",
-        "state": "PA",
-        "zip_code": "19146",
-        "coordinates": {
-          "latitude": 34.2310,
-          "longitude": 79.2310,
-        }
     }
   }
 ]

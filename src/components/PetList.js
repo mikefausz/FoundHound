@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { View, Dimensions } from 'react-native'
+import { View, Dimensions } from 'react-native';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body, Spinner } from 'native-base';
 import firebase from 'firebase';
 import { petsFetchSuccess } from '../actions';
@@ -52,6 +52,9 @@ class PetList extends Component {
                 </View>
             );
         }
+
+        // TODO Display 'No pets added' message if pets.length = 0
+        
         return <List dataArray={this.props.pets} renderRow={this.renderRow} />;
     }
 
