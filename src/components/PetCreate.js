@@ -17,16 +17,22 @@ class PetCreate extends Component {
         // No pet provided, initialize values
         else {
             this.state = {
-                  name: '',
-                  age: '',
-                  breed: '',
-                  color: '',
-                  vaccinations: '',
-                  illnesses: ''
+                name: '',
+                age: '',
+                breed: '',
+                color: '',
+                vaccinations: '',
+                illnesses: ''
             }
         }
 
         this.state.loading = false;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(this.props.pet !== nextProps.pet) {
+          this.setState(nextProps.pet);
+        }
     }
 
     submitForm() {
@@ -148,4 +154,10 @@ class PetCreate extends Component {
     }
 };
 
-export default PetCreate;
+const mapStateToProps = state => {
+    return {
+      pet: state.pets.selected
+    };
+};
+
+export default connect(mapStateToProps)(PetCreate);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Image } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Title, Card, CardItem, Thumbnail, Text, Button, Icon } from 'native-base';
@@ -20,6 +21,7 @@ class PetDetail extends Component {
           illnesses
         } = this.props.pet;
 
+        console.log('petdetail pet', this.props.pet);
         return (
             <Container>
                 <Header>
@@ -45,7 +47,7 @@ class PetDetail extends Component {
                                 </Body>
                             </Left>
                             <Right>
-                                <Button transparent onPress={() => Actions.pet_edit({ pet: this.props.pet })}>
+                                <Button transparent onPress={() => Actions.pet_edit()}>
                                     <Icon name="create" />
                                 </Button>
                             </Right>
@@ -85,4 +87,11 @@ class PetDetail extends Component {
     }
 }
 
-export default PetDetail;
+
+const mapStateToProps = state => {
+    return {
+      pet: state.pets.selected
+    };
+};
+
+export default connect(mapStateToProps)(PetDetail);

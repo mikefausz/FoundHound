@@ -3,6 +3,7 @@ import { Actions } from 'react-native-router-flux';
 import {
   PET_UPDATE,
   PET_CREATE,
+  PET_SELECT,
   PETS_FETCH_SUCCESS
 } from './types';
 
@@ -10,6 +11,13 @@ export const petUpdate = ({ prop, value }) => {
   return {
     type: PET_UPDATE,
     payload: { prop, value }
+  }
+};
+
+export const petSelect = (pet) => {
+  return {
+    type: PET_SELECT,
+    payload: pet
   }
 };
 

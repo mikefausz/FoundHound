@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { View, Dimensions } from 'react-native';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body, Spinner } from 'native-base';
 import firebase from 'firebase';
-import { petsFetchSuccess } from '../actions';
+import { petsFetchSuccess, petSelect } from '../actions';
 
 class PetList extends Component {
     constructor(props) {
@@ -54,27 +54,32 @@ class PetList extends Component {
         }
 
         // TODO Display 'No pets added' message if pets.length = 0
-        
-        return <List dataArray={this.props.pets} renderRow={this.renderRow} />;
+
+        return <List dataArray={this.props.pets}
+                     renderRow={(pet) => {
+                         const { name, age, breed, image } = pet;
+
+                         return(
+                             <ListItem avatar onPress={() => this.onRowPress(pet)}>
+                                 <Left>
+                                     <Thumbnail source={{ uri: image }} />
+                                 </Left>
+                                 <Body>
+                                     <Text>{name}</Text>
+                                     <Text note>{breed}</Text>
+                                 </Body>
+                                 <Right>
+                                     <Text note>{age} year{age > 1 ? 's' : ''} old</Text>
+                                 </Right>
+                             </ListItem>
+                         );
+                     }}
+              />;
     }
 
-    renderRow(pet) {
-        const { name, age, breed, image } = pet;
-
-        return(
-            <ListItem avatar onPress={() => Actions.pet_detail({ pet })}>
-                <Left>
-                    <Thumbnail source={{ uri: image }} />
-                </Left>
-                <Body>
-                    <Text>{name}</Text>
-                    <Text note>{breed}</Text>
-                </Body>
-                <Right>
-                    <Text note>{age} year{age > 1 ? 's' : ''} old</Text>
-                </Right>
-            </ListItem>
-        );
+    onRowPress(pet) {
+      this.props.petSelect(pet);
+      Actions.pet_detail();
     }
 
     render() {
@@ -106,8 +111,8 @@ class PetList extends Component {
 const mapStateToProps = state => {
     return {
       user: state.user,
-      pets: state.pets
+      pets: state.pets.all
     };
 };
 
-export default connect(mapStateToProps, { petsFetchSuccess })(PetList);
+export default connect(mapStateToProps, { petsFetchSuccess, petSelect })(PetList);
