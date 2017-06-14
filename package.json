@@ -18,11 +18,13 @@
     "react-native": "0.44.0",
     "react-native-config": "^0.4.2",
     "react-native-lock": "^0.6.0",
+    "react-native-nfc": "^0.3.0",
     "react-native-router-flux": "^3.39.1",
     "react-native-vector-icons": "^4.1.1",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "validate.js": "^0.11.1"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",
