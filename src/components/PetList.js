@@ -54,7 +54,7 @@ class PetList extends Component {
         }
 
         // TODO Display 'No pets added' message if pets.length = 0
-        
+
         return <List dataArray={this.props.pets} renderRow={this.renderRow} />;
     }
 

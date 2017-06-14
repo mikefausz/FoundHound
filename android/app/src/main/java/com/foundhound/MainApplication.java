@@ -3,6 +3,7 @@ package com.foundhound;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.novadart.reactnativenfc.ReactNativeNFCPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.auth0.lock.react.LockReactPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeNFCPackage(),
             new VectorIconsPackage(),
             new ReactNativeConfigPackage(),
             new LockReactPackage()

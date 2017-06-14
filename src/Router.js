@@ -2,6 +2,7 @@ import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import PetScanner from './components/PetScanner';
+import PetFound from './components/PetFound';
 import PetList from './components/PetList';
 import PetDetail from './components/PetDetail';
 import PetScanList from './components/PetScanList';
@@ -45,6 +46,10 @@ const RouterComponent = () => {
                     <Scene
                         key="pet_scan"
                         component={PetScanner}
+                    />
+                    <Scene
+                        key="pet_found"
+                        component={PetFound}
                     />
                     <Scene
                         key="profile_detail"

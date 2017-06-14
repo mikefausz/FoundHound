@@ -1,5 +1,3 @@
-// import data from './PetList.json';
-
 import {
   PETS_FETCH_SUCCESS
 } from '../actions/types';

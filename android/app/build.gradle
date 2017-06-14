@@ -131,6 +131,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-nfc')
     compile project(':react-native-vector-icons')
     compile project(':react-native-config')
     compile project(':react-native-lock')
