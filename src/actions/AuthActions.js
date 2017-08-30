@@ -2,9 +2,9 @@ import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 
 import {
-  LOGIN_USER,
-  LOGIN_USER_SUCCESS,
-  LOGIN_USER_FAIL
+    LOGIN_USER,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_FAIL
 } from './types';
 
 export const loginUser = ({ email, password }) => {
@@ -58,15 +58,15 @@ export const loginUser = ({ email, password }) => {
 };
 
 const loginUserSuccess = (dispatch, user) => {
-  dispatch({
-    type: LOGIN_USER_SUCCESS,
-    payload: user
-  });
+    dispatch({
+        type: LOGIN_USER_SUCCESS,
+        payload: user
+    });
 }
 
 const loginUserFail = (dispatch, err) => {
-  dispatch({
-    type: LOGIN_USER_SUCCESS,
-    payload: err
-  });
+    dispatch({
+        type: LOGIN_USER_SUCCESS,
+        payload: err
+    });
 }

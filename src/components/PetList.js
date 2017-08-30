@@ -4,46 +4,19 @@ import { Actions } from 'react-native-router-flux';
 import { View, Dimensions } from 'react-native';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body, Spinner } from 'native-base';
 import firebase from 'firebase';
-import { petsFetchSuccess, petSelect } from '../actions';
+
+import { petsFetch } from '../actions';
 
 class PetList extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loading: true,
-            error: ''
-        }
-    }
 
     componentWillMount() {
-        const _this = this;
-        this.setState({
-          loading: true,
-          error: ''
-        });
-
-        // Get user's pets from db, update state
-        var userPetsRef = firebase.database().ref('pets/' + this.props.user._id);
-        userPetsRef.once('value')
-            .then(function(snapshot) {
-                console.log('Got user pets', snapshot.val());
-                _this.props.petsFetchSuccess(snapshot.val());
-                _this.setState({
-                  loading: false
-                });
-            })
-            .catch((error) => {
-                console.log('ERROR', error);
-                _this.setState({
-                  loading: false,
-                  error
-                });
-            });
+        this.props.petsFetch({ userId: this.props.user._id })
     }
 
     renderContent() {
-        if(this.state.loading) {
+        const { pets } = this.props;
+        
+        if(pets.loading) {
             const { height: screenHeight } = Dimensions.get('window');
 
             return (
@@ -55,12 +28,12 @@ class PetList extends Component {
 
         // TODO Display 'No pets added' message if pets.length = 0
 
-        return <List dataArray={this.props.pets}
+        return <List dataArray={pets.all}
                      renderRow={(pet) => {
                          const { name, age, breed, image } = pet;
 
                          return(
-                             <ListItem avatar onPress={() => this.onRowPress(pet)}>
+                             <ListItem avatar onPress={() => Actions.pet_detail({ petId: pet._id })}>
                                  <Left>
                                      <Thumbnail source={{ uri: image }} />
                                  </Left>
@@ -75,11 +48,6 @@ class PetList extends Component {
                          );
                      }}
               />;
-    }
-
-    onRowPress(pet) {
-      this.props.petSelect(pet);
-      Actions.pet_detail();
     }
 
     render() {
@@ -110,9 +78,9 @@ class PetList extends Component {
 
 const mapStateToProps = ({ auth, pets }) => {
     return {
-      user: auth.user,
-      pets: pets.all
+        user: auth.user,
+        pets
     };
 };
 
-export default connect(mapStateToProps, { petsFetchSuccess, petSelect })(PetList);
+export default connect(mapStateToProps, { petsFetch })(PetList);
