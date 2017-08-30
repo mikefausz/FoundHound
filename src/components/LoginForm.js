@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import { Container, Content, Form, Item, Input, Label, Button, Text, Header, Left, Right, Body, Title, Icon } from 'native-base';
-import { loginUserSuccess } from '../actions';
+
+import { loginUser } from '../actions';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -15,8 +16,14 @@ class LoginForm extends Component {
       }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.auth.user) {
+            Actions.drawer();
+        }
+    }
+
     renderButton() {
-        if(this.props.loading) {
+        if(this.props.auth.loading) {
             return <Spinner size="large" />;
         }
         return (
@@ -27,53 +34,8 @@ class LoginForm extends Component {
     }
 
     attemptLogin() {
-        const _this = this;
-
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(user => {
-
-                // User successfully signed in, get profile from db and redirect
-                var userRef = firebase.database().ref('users/' + user.uid);
-                userRef.once('value')
-                    .then(function(snapshot) {
-                        console.log('Got user profile', snapshot.val());
-                        _this.props.loginUserSuccess(snapshot.val());
-                        Actions.drawer();
-                    })
-                    .catch((err) => {
-                        console.log('ERROR', err);
-                    });
-            })
-            .catch(error => {
-                console.log(error);
-                firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-                    .then(user => {
-
-                        // User successfully created
-                        console.log('Created user: ' + user.uid + ', adding user profile to db...');
-
-                        // Create new user profile
-                        const newUser = {
-                            _id: user.uid,
-                            email: this.state.email
-                        };
-
-                        // Store in state
-                        _this.props.loginUserSuccess(newUser);
-
-                        // Store in db and redirect
-                        const userRef = firebase.database().ref('users/' + user.uid);
-                        userRef.set(newUser)
-                            .then(() => {
-                                console.log('Added user to db');
-                                Actions.drawer();
-                            })
-                            .catch((err) => {
-                                console.log('ERROR', err);
-                            });
-                    })
-                    .catch(error => console.log(error));
-            });
+        const { email, password } = this.state;
+        this.props.loginUser({ email, password });
     }
 
     render() {
@@ -114,8 +76,8 @@ class LoginForm extends Component {
     }
 }
 
-const mapStateToProps = ({ user }) => {
-    return { user };
+const mapStateToProps = ({ auth }) => {
+    return { auth };
 };
 
-export default connect(mapStateToProps, { loginUserSuccess })(LoginForm);
+export default connect(mapStateToProps, { loginUser })(LoginForm);

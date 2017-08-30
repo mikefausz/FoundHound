@@ -86,8 +86,8 @@ const styles = {
     }
 };
 
-const mapStateToProps = state => {
-  return { user: state.user };
+const mapStateToProps = ({ auth }) => {
+  return { user: auth.user };
 };
 
 export default connect(mapStateToProps, null)(SideMenu);

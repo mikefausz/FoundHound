@@ -80,10 +80,10 @@ class PetScanDetail extends Component {
 }
 
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ pets, scans}) => {
     return {
-      pet: state.pets.selected,
-      scan: state.scans.one,
+      pet: pets.selected,
+      scan: scans.one,
     };
 };
 

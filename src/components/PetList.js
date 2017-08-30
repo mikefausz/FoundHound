@@ -108,10 +108,10 @@ class PetList extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth, pets }) => {
     return {
-      user: state.user,
-      pets: state.pets.all
+      user: auth.user,
+      pets: pets.all
     };
 };
 

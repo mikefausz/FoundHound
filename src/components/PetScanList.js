@@ -101,8 +101,8 @@ class PetScanList extends Component {
 }
 
 
-const mapStateToProps = state => {
-  return { scans: state.scans.all };
+const mapStateToProps = ({ scans }) => {
+  return { scans: scans.all };
 };
 
 export default connect(mapStateToProps, { scansFetchSuccess })(PetScanList);
