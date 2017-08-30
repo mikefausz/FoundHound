@@ -6,3 +6,4 @@ export const PET_SELECT = 'pet_select';
 export const PETS_FETCH_SUCCESS = 'pets_fetch_success';
 
 export const SCANS_FETCH_SUCCESS = 'scans_fetch_success';
+export const SCAN_FETCH_SUCCESS = 'scan_fetch_success';

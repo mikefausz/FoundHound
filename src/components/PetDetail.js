@@ -21,7 +21,6 @@ class PetDetail extends Component {
           illnesses
         } = this.props.pet;
 
-        console.log('petdetail pet', this.props.pet);
         return (
             <Container>
                 <Header>

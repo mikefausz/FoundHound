@@ -55,7 +55,7 @@ class PetScanList extends Component {
         }
 
         // TODO Display 'No recent scans' message if scans.length = 0
-        
+
         return <List dataArray={this.props.scans} renderRow={this.renderRow} />;
     }
 
@@ -70,7 +70,7 @@ class PetScanList extends Component {
                     <Text note>{moment(created_at).fromNow()}</Text>
                 </Body>
                 <Right>
-                    <Button transparent onPress={() => Actions.refresh({key: 'drawer', open: value => !value })}>
+                    <Button transparent onPress={() => Actions.pet_scan_detail({ scanId: scan._id })}>
                         <Icon name="arrow-forward" />
                     </Button>
                 </Right>
@@ -102,7 +102,7 @@ class PetScanList extends Component {
 
 
 const mapStateToProps = state => {
-  return { scans: state.scans };
+  return { scans: state.scans.all };
 };
 
 export default connect(mapStateToProps, { scansFetchSuccess })(PetScanList);

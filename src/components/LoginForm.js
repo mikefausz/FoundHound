@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import { Container, Content, Form, Item, Input, Label, Button, Text, Header, Left, Right, Body, Title, Icon } from 'native-base';
 import { loginUserSuccess } from '../actions';
+
 class LoginForm extends Component {
     constructor(props) {
       super(props);
