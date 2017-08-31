@@ -1,43 +1,17 @@
 import firebase from 'firebase';
 
 import {
-    PET_UPDATE,
-    PET_CREATE,
-    PET_SELECT,
+    PETS_FETCH,
+    PETS_FETCH_SUCCESS,
+    PETS_FETCH_FAIL,
     PET_FETCH,
     PET_FETCH_SUCCESS,
     PET_FETCH_FAIL,
-    PETS_FETCH,
-    PETS_FETCH_SUCCESS,
-    PETS_FETCH_FAIL
+    PET_CREATE,
+    PET_CREATE_SUCCESS,
+    PET_CREATE_FAIL,
+    PET_UPDATE
 } from './types';
-
-export const petUpdate = ({ prop, value }) => {
-    return {
-        type: PET_UPDATE,
-        payload: { prop, value }
-    }
-};
-
-export const petSelect = (pet) => {
-    return {
-        type: PET_SELECT,
-        payload: pet
-    }
-};
-
-export const petCreate = ({ name, phone, shift }) => {
-    const { currentUser } = firebase.auth();
-
-    return (dispatch) => {
-        firebase.database().ref(`/pets/${currentUser.uid}`)
-            .push({ name, phone, shift })
-            .then(() => {
-                dispatch({ type: PET_CREATE });
-                Actions.pet_list({ type: 'reset'  });
-            });
-    };
-};
 
 export const petsFetch = ({ userId }) => {
     return(dispatch) => {
@@ -99,6 +73,72 @@ const petFetchSuccess = (dispatch, pet) => {
 const petFetchFail = (dispatch, err) => {
     dispatch({
         type: PET_FETCH_SUCCESS,
+        payload: err
+    });
+}
+
+export const petCreate = ({ userId, petObj }) => {
+
+    return (dispatch) => {
+        dispatch({ type: PET_CREATE });
+
+        const userPetsRef = firebase.database().ref(`pets/${userId}`);
+        const newPetRef = userPetsRef.push();
+
+        console.log(newPetRef);
+        newPetRef.set({ ...petObj, _id: newPetRef.key })
+            .then((res) => {
+                console.log('Pet Create SUCCESS');
+                petCreateSuccess(dispatch, res);
+            }).catch((err) => {
+                console.log('Pet Create ERROR', err);
+                petCreateFail(dispatch, err);
+            });
+    };
+};
+
+const petCreateSuccess = (dispatch, pet) => {
+    dispatch({
+        type: PET_CREATE_SUCCESS,
+        payload: pet
+    });
+}
+
+const petCreateFail = (dispatch, err) => {
+    dispatch({
+        type: PET_CREATE_SUCCESS,
+        payload: err
+    });
+}
+
+export const petUpdate = ({ userId, petObj }) => {
+
+    return (dispatch) => {
+        dispatch({ type: PET_UPDATE });
+
+        const userPetRef = firebase.database().ref(`pets/${userId}/${petId}`);
+
+        userPetRef.set(petObj)
+            .then((res) => {
+                console.log('Pet Update SUCCESS', res);
+                petUpdateSuccess(dispatch, res)
+            }).catch((err) => {
+                console.log('Pet Update ERROR', err);
+                petUpdateFail(dispatch, err)
+            });
+    };
+};
+
+const petUpdateSuccess = (dispatch, pet) => {
+    dispatch({
+        type: PET_UPDATE_SUCCESS,
+        payload: pet
+    });
+}
+
+const petUpdateFail = (dispatch, err) => {
+    dispatch({
+        type: PET_UPDATE_SUCCESS,
         payload: err
     });
 }
