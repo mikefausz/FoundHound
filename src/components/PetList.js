@@ -28,26 +28,28 @@ class PetList extends Component {
 
         // TODO Display 'No pets added' message if pets.length = 0
 
-        return <List dataArray={pets.all}
-                     renderRow={(pet) => {
-                         const { name, age, breed, image } = pet;
+        return (
+            <List dataArray={pets.all}
+                 renderRow={(pet) => {
+                     const { name, age, breed, image } = pet;
 
-                         return(
-                             <ListItem avatar onPress={() => Actions.pet_detail({ petId: pet._id })}>
-                                 <Left>
-                                     <Thumbnail source={{ uri: image }} />
-                                 </Left>
-                                 <Body>
-                                     <Text>{name}</Text>
-                                     <Text note>{breed}</Text>
-                                 </Body>
-                                 <Right>
-                                     <Text note>{age} year{age > 1 ? 's' : ''} old</Text>
-                                 </Right>
-                             </ListItem>
-                         );
-                     }}
-              />;
+                     return(
+                         <ListItem avatar onPress={() => Actions.pet_detail({ petId: pet._id })}>
+                             <Left>
+                                 <Thumbnail source={{ uri: image }} />
+                             </Left>
+                             <Body>
+                                 <Text>{name}</Text>
+                                 <Text note>{breed}</Text>
+                             </Body>
+                             <Right>
+                                 <Text note>{age} year{age > 1 ? 's' : ''} old</Text>
+                             </Right>
+                         </ListItem>
+                     );
+                 }}
+            />
+        );
     }
 
     render() {

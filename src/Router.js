@@ -3,6 +3,7 @@ import { Scene, Router, Actions } from 'react-native-router-flux';
 
 import LoginForm from './components/LoginForm';
 import PetScanner from './components/PetScanner';
+import PetFound from './components/PetFound';
 import PetList from './components/PetList';
 import PetDetail from './components/PetDetail';
 import PetScanList from './components/PetScanList';

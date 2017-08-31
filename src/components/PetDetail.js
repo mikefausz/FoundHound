@@ -9,8 +9,20 @@ import { petFetch } from '../actions';
 
 class PetDetail extends Component {
 
-    componentWillMount() {
-        this.props.petFetch({ userId: this.props.user._id, petId: this.props.petId });
+    componentDidMount() {
+        this.newPetFetch(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(this.props.petId !== nextProps.petId) {
+            this.newPetFetch(nextProps);
+        }
+    }
+
+    newPetFetch(props) {
+        const { petFetch, user, petId } = props;
+
+        petFetch({ userId: user._id, petId })
     }
 
     renderContent() {
