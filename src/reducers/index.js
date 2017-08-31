@@ -3,10 +3,12 @@ import AuthReducer from './AuthReducer';
 import PetReducer from './PetReducer';
 import PetsReducer from './PetsReducer';
 import ScanReducer from './ScanReducer';
+import ScansReducer from './ScansReducer';
 
 export default combineReducers({
     auth: AuthReducer,
     pet: PetReducer,
     pets: PetsReducer,
-    scans: ScanReducer,
+    scan: ScanReducer,
+    scans: ScansReducer,
 })

@@ -21,5 +21,10 @@ export const PET_UPDATE_SUCCESS   = 'pet_update_success';
 export const PET_UPDATE_FAIL      = 'pet_update_fail';
 
 // Scan action types
+export const SCANS_FETCH          = 'scans_fetch';
 export const SCANS_FETCH_SUCCESS  = 'scans_fetch_success';
+export const SCANS_FETCH_FAIL     = 'scans_fetch_fail';
+
+export const SCAN_FETCH           = 'scan_fetch';
 export const SCAN_FETCH_SUCCESS   = 'scan_fetch_success';
+export const SCAN_FETCH_FAIL      = 'scan_fetch_fail';

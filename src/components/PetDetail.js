@@ -72,7 +72,7 @@ class PetDetail extends Component {
                 </CardItem>
                 <CardItem footer>
                     <Body>
-                        <Button block onPress={() => Actions.pet_scan_list({ pet: this.props.pet })}>
+                        <Button block onPress={() => Actions.pet_scan_list({ pet: pet.selected })}>
                             <Text>See Scan History</Text>
                         </Button>
                         <Button block danger onPress={() => this.markLost()}>

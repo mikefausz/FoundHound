@@ -1,22 +1,22 @@
 import {
-    SCAN_FETCH,
-    SCAN_FETCH_SUCCESS,
-    SCAN_FETCH_FAIL
+    SCANS_FETCH,
+    SCANS_FETCH_SUCCESS,
+    SCANS_FETCH_FAIL
 } from '../actions/types';
 
 const INITIAL_STATE = {
     loading: false,
     error: '',
-    selected: {}
+    all: []
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case SCAN_FETCH:
+        case SCANS_FETCH:
             return { ...INITIAL_STATE, loading: true };
-        case SCAN_FETCH_SUCCESS:
-            return { ...INITIAL_STATE, selected: action.payload};
-        case SCAN_FETCH_FAIL:
+        case SCANS_FETCH_SUCCESS:
+            return { ...INITIAL_STATE, all: action.payload};
+        case SCANS_FETCH_FAIL:
             return { ...INITIAL_STATE, error: action.payload};
         default:
             return state;

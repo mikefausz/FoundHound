@@ -10,7 +10,9 @@ import {
     PET_CREATE,
     PET_CREATE_SUCCESS,
     PET_CREATE_FAIL,
-    PET_UPDATE
+    PET_UPDATE,
+    PET_UPDATE_SUCCESS,
+    PET_UPDATE_FAIL,
 } from './types';
 
 export const petsFetch = ({ userId }) => {

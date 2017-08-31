@@ -5,46 +5,19 @@ import { View, Dimensions } from 'react-native';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body, Spinner } from 'native-base';
 import moment from 'moment';
 import firebase from 'firebase';
-import { scansFetchSuccess } from '../actions';
+
+import { scansFetch } from '../actions';
 
 class PetScanList extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loading: false,
-            error: ''
-        }
-    }
 
     componentWillMount() {
-        const _this = this;
-        this.setState({
-          loading: true,
-          error: ''
-        });
-
-        // Get pet's scans from db, update state
-        var petScansRef = firebase.database().ref('scans/' + this.props.pet._id);
-        petScansRef.once('value')
-            .then(function(snapshot) {
-                console.log('Got pet scans', snapshot.val());
-                _this.props.scansFetchSuccess(snapshot.val());
-                _this.setState({
-                  loading: false,
-                });
-            })
-            .catch((error) => {
-                console.log('ERROR', error);
-                _this.setState({
-                  loading: false,
-                  error
-                });
-            });
+        this.props.scansFetch({ petId: this.props.pet._id });
     }
 
     renderContent() {
-        if(this.state.loading) {
+        const { scans } = this.props;
+
+        if(scans.loading) {
             const { height: screenHeight } = Dimensions.get('window');
 
             return (
@@ -56,11 +29,11 @@ class PetScanList extends Component {
 
         // TODO Display 'No recent scans' message if scans.length = 0
 
-        return <List dataArray={this.props.scans} renderRow={this.renderRow} />;
+        return <List dataArray={scans.all} renderRow={this.renderRow} />;
     }
 
     renderRow(scan) {
-        const { created_at, location } = scan;
+        const { created_at, location, _id } = scan;
 
         return(
             <ListItem>
@@ -70,7 +43,7 @@ class PetScanList extends Component {
                     <Text note>{moment(created_at).fromNow()}</Text>
                 </Body>
                 <Right>
-                    <Button transparent onPress={() => Actions.pet_scan_detail({ scanId: scan._id })}>
+                    <Button transparent onPress={() => Actions.pet_scan_detail({ scanId: _id })}>
                         <Icon name="arrow-forward" />
                     </Button>
                 </Right>
@@ -102,7 +75,7 @@ class PetScanList extends Component {
 
 
 const mapStateToProps = ({ scans }) => {
-  return { scans: scans.all };
+    return { scans };
 };
 
-export default connect(mapStateToProps, { scansFetchSuccess })(PetScanList);
+export default connect(mapStateToProps, { scansFetch })(PetScanList);

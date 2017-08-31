@@ -7,45 +7,23 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import moment from 'moment';
 import firebase from 'firebase';
 
-import { scanFetchSuccess } from '../actions';
+import { scanFetch } from '../actions';
 
 class PetScanDetail extends Component {
-    componentWillMount() {
-        const _this = this;
-        this.setState({
-          loading: true,
-          error: ''
-        });
 
-        // Get pet's scans from db, update state
-        console.log('scans/' + this.props.pet._id + '/' + this.props.scanId);
-        var petScanRef = firebase.database().ref('scans/' + this.props.pet._id + '/' + this.props.scanId);
-        petScanRef.once('value')
-            .then(function(snapshot) {
-                console.log('Got pet scan', snapshot.val());
-                _this.props.scanFetchSuccess(snapshot.val());
-                _this.setState({
-                  loading: false,
-                });
-            })
-            .catch((error) => {
-                console.log('ERROR', error);
-                _this.setState({
-                  loading: false,
-                  error
-                });
-            });
+    componentDidMount() {
+        this.props.scanFetch({ petId: this.props.pet._id, scanId: this.props.scanId });
     }
 
     render() {
         const {
-          name,
-          image
+            name,
+            image
         } = this.props.pet;
         const {
-          location,
-          created_at
-        } = this.props.scan;
+            location,
+            created_at
+        } = this.props.scan.selected;
 
         return (
             <Container>
@@ -66,8 +44,8 @@ class PetScanDetail extends Component {
                             <Left>
                                 <Thumbnail source={{ uri: image}} />
                                 <Body>
-                                    <Text>{location.street_address}</Text>
-                                    <Text note>{location.city}, {location.state}</Text>
+                                    <Text>{location && location.street_address}</Text>
+                                    <Text note>{location && location.city}, {location && location.state}</Text>
                                     <Text note>{moment(created_at).fromNow()}</Text>
                                 </Body>
                             </Left>
@@ -80,11 +58,11 @@ class PetScanDetail extends Component {
 }
 
 
-const mapStateToProps = ({ pets, scans}) => {
+const mapStateToProps = ({ pet, scan }) => {
     return {
-      pet: pets.selected,
-      scan: scans.one,
+        pet: pet.selected,
+        scan
     };
 };
 
-export default connect(mapStateToProps, { scanFetchSuccess })(PetScanDetail);
+export default connect(mapStateToProps, { scanFetch })(PetScanDetail);
