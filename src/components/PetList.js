@@ -10,12 +10,12 @@ import { petsFetch } from '../actions';
 class PetList extends Component {
 
     componentWillMount() {
-        this.props.petsFetch({ userId: this.props.user._id })
+        this.props.petsFetch({ userId: this.props.user._id });
     }
 
     renderContent() {
         const { pets } = this.props;
-        
+
         if(pets.loading) {
             const { height: screenHeight } = Dimensions.get('window');
 
@@ -69,7 +69,7 @@ class PetList extends Component {
                     </Right>
                 </Header>
                 <Content>
-                  {this.renderContent()}
+                    {this.renderContent()}
                 </Content>
             </Container>
         );

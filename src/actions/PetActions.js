@@ -70,3 +70,35 @@ const petsFetchFail = (dispatch, err) => {
         payload: err
     });
 }
+
+export const petFetch = ({ userId, petId }) => {
+    return(dispatch) => {
+        dispatch({ type: PET_FETCH });
+
+        // Get user's pets from db, update state
+        const userPetRef = firebase.database().ref('pets/' + userId + '/' + petId);
+        userPetRef.once('value')
+            .then(function(snapshot) {
+                console.log('Got user pet', snapshot.val());
+                petFetchSuccess(dispatch, snapshot.val());
+            })
+            .catch((err) => {
+                console.log('ERROR', err);
+                petFetchFail(dispatch, err);
+            });
+    };
+};
+
+const petFetchSuccess = (dispatch, pet) => {
+    dispatch({
+        type: PET_FETCH_SUCCESS,
+        payload: pet
+    });
+}
+
+const petFetchFail = (dispatch, err) => {
+    dispatch({
+        type: PET_FETCH_SUCCESS,
+        payload: err
+    });
+}

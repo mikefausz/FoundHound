@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
         case PET_FETCH:
             return { ...INITIAL_STATE, loading: true };
         case PET_FETCH_SUCCESS:
-            return { ...INITIAL_STATE, all: action.payload };
+            return { ...INITIAL_STATE, selected: action.payload };
         case PET_FETCH_FAIL:
             return { ...INITIAL_STATE, error: action.payload };
         default:

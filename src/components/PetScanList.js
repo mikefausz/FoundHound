@@ -83,7 +83,7 @@ class PetScanList extends Component {
             <Container>
                 <Header>
                     <Left>
-                        <Button transparent>
+                        <Button transparent onPress={() => Actions.refresh({key: 'drawer', open: value => !value })}>
                             <Icon name="menu" />
                         </Button>
                     </Left>
