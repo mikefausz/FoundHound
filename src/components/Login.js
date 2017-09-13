@@ -6,7 +6,7 @@ import { Container, Content, Form, Item, Input, Label, Button, Text, Header, Lef
 
 import { loginUser } from '../actions';
 
-class LoginForm extends Component {
+class Login extends Component {
     constructor(props) {
       super(props);
 
@@ -51,7 +51,7 @@ class LoginForm extends Component {
                 <Content padder={true}>
                     <Form>
                         <Item fixedLabel>
-                            <Label>Username</Label>
+                            <Label>Email</Label>
                             <Input
                                 autoCapitalize={'none'}
                                 onChangeText={email => this.setState({ email })}
@@ -66,8 +66,11 @@ class LoginForm extends Component {
                                 value={this.state.password}
                             />
                         </Item>
-                        <Button block onPress={()=> this.attemptLogin()}>
+                        <Button block style={{ marginTop: 20 }} onPress={()=> this.attemptLogin()}>
                             <Text>Login</Text>
+                        </Button>
+                        <Button block info transparent style={{ marginTop: 20 }} onPress={()=> Actions.sign_up()}>
+                            <Text>Sign Up</Text>
                         </Button>
                     </Form>
                 </Content>
@@ -80,4 +83,4 @@ const mapStateToProps = ({ auth }) => {
     return { auth };
 };
 
-export default connect(mapStateToProps, { loginUser })(LoginForm);
+export default connect(mapStateToProps, { loginUser })(Login);
