@@ -14,7 +14,8 @@ import {
     CREATE_USER_FAIL,
     SAVE_USER,
     SAVE_USER_SUCCESS,
-    SAVE_USER_FAIL
+    SAVE_USER_FAIL,
+    SET_PROFILE_PICTURE
 } from './types';
 
 
@@ -145,7 +146,6 @@ export const saveUser = (user) => {
     return(dispatch) => {
         dispatch({ type: SAVE_USER });
 
-        console.log('yo', user);
         // User successfully signed in, get profile from db and redirect
         const userRef = firebase.database().ref('users/' + user._id);
         userRef.set(user)
@@ -172,4 +172,11 @@ const saveUserFail = (dispatch, err) => {
         type: SAVE_USER_FAIL,
         payload: err
     });
+}
+
+export const setProfilePicture = (url) => {
+    return {
+        type: SET_PROFILE_PICTURE,
+        payload: url
+    };
 }

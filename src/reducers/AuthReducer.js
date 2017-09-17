@@ -10,7 +10,8 @@ import {
     CREATE_USER_FAIL,
     SAVE_USER,
     SAVE_USER_SUCCESS,
-    SAVE_USER_FAIL
+    SAVE_USER_FAIL,
+    SET_PROFILE_PICTURE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -48,6 +49,14 @@ export default (state = INITIAL_STATE, action) => {
         case CREATE_USER_SUCCESS:
         case SAVE_USER_SUCCESS:
             return { ...INITIAL_STATE, user: action.payload };
+        case SET_PROFILE_PICTURE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    image: action.payload
+                }
+            };
         default:
             return state;
     }

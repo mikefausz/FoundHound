@@ -61,6 +61,7 @@ const RouterComponent = () => {
                             component={ProfileDetail} />
                         <Scene
                             key="profile_edit"
+                            initial={true}
                             component={ProfileEdit} />
                     </Scene>
                 </Scene>

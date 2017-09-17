@@ -25,7 +25,7 @@ class SideMenu extends Component {
             return (
                 <Content>
                     <View style={styles.headerStyle}>
-                        <Thumbnail large source={{ uri: image || 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png' }} />
+                        <Thumbnail large source={{ uri: image || '../assets/img/default-avatar.png' }} />
                         <H3 style={{ color: '#fff' }}>{first_name && last_name ? `${first_name} ${last_name}` : email}</H3>
                     </View>
 
@@ -57,7 +57,7 @@ class SideMenu extends Component {
                             </Body>
                             <Right/>
                         </ListItem>
-                        <ListItem icon onPress={()=> Actions.profile_detail()}>
+                        <ListItem icon onPress={()=> Actions.profile_edit()}>
                             <Left>
                                 <Icon name="person" />
                             </Left>
