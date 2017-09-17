@@ -7,7 +7,11 @@ import {
     LOGIN_USER_FAIL,
     CREATE_USER,
     CREATE_USER_SUCCESS,
-    CREATE_USER_FAIL
+    CREATE_USER_FAIL,
+    SAVE_USER,
+    SAVE_USER_SUCCESS,
+    SAVE_USER_FAIL,
+    SET_PROFILE_PICTURE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,6 +21,8 @@ const INITIAL_STATE = {
     loginError: '',
     signUpLoading: false,
     signUpError: '',
+    saveLoading: false,
+    saveError: '',
     user: null
 };
 
@@ -34,10 +40,23 @@ export default (state = INITIAL_STATE, action) => {
             return { ...INITIAL_STATE, signUpLoading: true };
         case CREATE_USER_FAIL:
             return { ...INITIAL_STATE, signUpError: action.payload };
+        case SAVE_USER:
+            return { ...state, saveLoading: true };
+        case SAVE_USER_FAIL:
+            return { ...state, saveLoading: false, saveError: action.payload };
         case GET_USER_SUCCESS:
         case LOGIN_USER_SUCCESS:
         case CREATE_USER_SUCCESS:
+        case SAVE_USER_SUCCESS:
             return { ...INITIAL_STATE, user: action.payload };
+        case SET_PROFILE_PICTURE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    image: action.payload
+                }
+            };
         default:
             return state;
     }

@@ -11,6 +11,12 @@ export const CREATE_USER          = 'create_user';
 export const CREATE_USER_SUCCESS  = 'create_user_success';
 export const CREATE_USER_FAIL     = 'create_user_fail';
 
+export const SAVE_USER            = 'save_user';
+export const SAVE_USER_SUCCESS    = 'save_user_success';
+export const SAVE_USER_FAIL       = 'save_user_fail';
+
+export const SET_PROFILE_PICTURE  = 'set_profile_picture';
+
 // Pet action types
 export const PET_FETCH            = 'pet_fetch';
 export const PET_FETCH_SUCCESS    = 'pet_fetch_success';

@@ -16,7 +16,6 @@ class PetList extends Component {
         const { pets } = this.props;
         const { height: screenHeight } = Dimensions.get('window');
 
-        console.log('petters', pets);
         if(pets.loading) {
             return (
                 <View style={{ flex: 1, height: screenHeight, justifyContent: 'center'}}>

@@ -48,32 +48,14 @@ class ProfileDetail extends Component {
                         </CardItem>
                         <CardItem>
                             <Body>
-                                <Text>Home Phone</Text>
-                                <Text note>{home_phone || 'Not given'}</Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
                                 <Text>Mobile Phone</Text>
                                 <Text note>{mobile_phone || 'Not given'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem>
                             <Body>
-                                <Text>Work Phone</Text>
-                                <Text note>{work_phone || 'Not given'}</Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
                                 <Text>Email</Text>
                                 <Text note>{email}</Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
-                                <Text>Veterinarian</Text>
-                                <Text note>{veterinarian || 'Not given'}</Text>
                             </Body>
                         </CardItem>
                         <CardItem footer>

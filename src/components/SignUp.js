@@ -91,10 +91,19 @@ class SignUp extends Component {
     }
 
     render() {
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        const EmailType = t.refinement(t.String, function (email) { return emailRegex.test(email); });
+        const PasswordMinLength = t.refinement(t.String, value => {
+            return value.length > 6;
+        });
+        const ConfirmPasswordEquality = t.refinement(t.String, value => {
+            return value === this.state.value.password;
+        });
+
         const NewUser = t.struct({
-            email: t.String,
-            password: t.String,
-            confirmPassword: t.String
+            email: EmailType,
+            password: PasswordMinLength,
+            confirmPassword: ConfirmPasswordEquality
         });
 
         return (
