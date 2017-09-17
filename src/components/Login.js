@@ -1,19 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { Container, Content, Button, Text, Header, Left, Right, Body, Title, Icon, Spinner } from 'native-base';
+import t from 'tcomb-form-native';
 import firebase from 'firebase';
-import { Container, Content, Form, Item, Input, Label, Button, Text, Header, Left, Right, Body, Title, Icon } from 'native-base';
 
+import { Colors, Fonts } from '../config/styles';
+import formStyles from '../config/formStyles';
 import { loginUser } from '../actions';
+
+const Form = t.form.Form;
+const options = {
+    stylesheet: formStyles,
+    fields: {
+        email: {
+            placeholder: 'Email',
+            placeholderTextColor: Colors.mediumGrey,
+            autoCapitalize: 'none',
+            autoCorrect: false,
+            keyboardType: 'email-address',
+            underlineColorAndroid: Colors.transparent
+        },
+        password: {
+            placeholder: 'Password',
+            placeholderTextColor: Colors.mediumGrey,
+            autoCapitalize: 'none',
+            autoCorrect: false,
+            secureTextEntry: true,
+            underlineColorAndroid: Colors.transparent
+        }
+    }
+};
 
 class Login extends Component {
     constructor(props) {
-      super(props);
+        super(props);
 
-      this.state = {
-          email: '',
-          password: ''
-      }
+        this.state = {
+            value: {}
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -22,23 +48,47 @@ class Login extends Component {
         }
     }
 
+    onChange(value) {
+        this.setState({ value });
+    }
+
+    renderServerError() {
+        if(this.props.auth.loginError) {
+            return <Text style={styles.errorTextStyle}>{this.props.auth.loginError}</Text>;
+        }
+        return;
+    }
+
     renderButton() {
-        if(this.props.auth.loading) {
+        if(this.props.auth.loginLoading) {
             return <Spinner size="large" />;
         }
         return (
-            <Button onPress={this.attemptLogin.bind(this)}>
-                Login
+            <Button
+                block
+                style={{ marginTop: 20 }}
+                onPress={()=> this.attemptLogin()}>
+                    <Text>Login</Text>
             </Button>
         );
     }
 
     attemptLogin() {
-        const { email, password } = this.state;
-        this.props.loginUser({ email, password });
+        this.setState({ error: '' });
+
+        var value = this.refs.form.getValue();
+        if (value) {
+            const { email, password } = value;
+            this.props.loginUser({ email, password });
+        }
     }
 
     render() {
+        const User = t.struct({
+            email: t.String,
+            password: t.String
+        });
+
         return (
             <Container>
                 <Header>
@@ -49,35 +99,41 @@ class Login extends Component {
                     <Right />
                 </Header>
                 <Content padder={true}>
-                    <Form>
-                        <Item fixedLabel>
-                            <Label>Email</Label>
-                            <Input
-                                autoCapitalize={'none'}
-                                onChangeText={email => this.setState({ email })}
-                                value={this.state.email}
-                            />
-                        </Item>
-                        <Item fixedLabel last>
-                            <Label>Password</Label>
-                            <Input
-                                secureTextEntry={true}
-                                onChangeText={password => this.setState({ password })}
-                                value={this.state.password}
-                            />
-                        </Item>
-                        <Button block style={{ marginTop: 20 }} onPress={()=> this.attemptLogin()}>
-                            <Text>Login</Text>
-                        </Button>
-                        <Button block info transparent style={{ marginTop: 20 }} onPress={()=> Actions.sign_up()}>
+                    <Form
+                        ref="form"
+                        type={User}
+                        options={options}
+                        value={this.state.value}
+                        onChange={this.onChange.bind(this)}
+                    />
+
+                    {this.renderServerError()}
+
+                    {this.renderButton()}
+
+                    <Button
+                        block
+                        info
+                        transparent
+                        style={{ marginTop: 20 }}
+                        onPress={()=> Actions.sign_up()}>
                             <Text>Sign Up</Text>
-                        </Button>
-                    </Form>
+                    </Button>
                 </Content>
             </Container>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    errorTextStyle: {
+        color: Colors.errorRed,
+        fontFamily: Fonts.primaryFont,
+        fontSize: 15,
+        marginLeft: 20,
+        marginBottom: 10
+    }
+});
 
 const mapStateToProps = ({ auth }) => {
     return { auth };
