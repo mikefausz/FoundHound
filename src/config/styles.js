@@ -6,10 +6,10 @@ export const Colors = {
     // Basic
     black:        '#000',
     white:        '#fff',
-    lightGrey:    '#eee',
-    mediumGrey:   '#d2d2d2',
-    darkGrey:     '#9c9c9c',
-    errorRed:     '#b30000',
+    greyLight:    '#eee',
+    greyMedium:   '#d2d2d2',
+    greyDark:     '#9c9c9c',
+    redError:     '#b30000',
     transparent:  'rgba(255,255,255,0)'
 };
 

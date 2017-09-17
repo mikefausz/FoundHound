@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Button, Text, Header, Left, Right, Body, Title, Icon, Spinner } from 'native-base';
 import t from 'tcomb-form-native';
-import firebase from 'firebase';
 
 import { Colors, Fonts } from '../config/styles';
 import formStyles from '../config/formStyles';
@@ -16,7 +14,7 @@ const options = {
     fields: {
         email: {
             placeholder: 'Email',
-            placeholderTextColor: Colors.mediumGrey,
+            placeholderTextColor: Colors.greyMedium,
             autoCapitalize: 'none',
             autoCorrect: false,
             keyboardType: 'email-address',
@@ -24,7 +22,7 @@ const options = {
         },
         password: {
             placeholder: 'Password',
-            placeholderTextColor: Colors.mediumGrey,
+            placeholderTextColor: Colors.greyMedium,
             autoCapitalize: 'none',
             autoCorrect: false,
             secureTextEntry: true,
@@ -54,14 +52,14 @@ class Login extends Component {
 
     renderServerError() {
         if(this.props.auth.loginError) {
-            return <Text style={styles.errorTextStyle}>{this.props.auth.loginError}</Text>;
+            return <Text style={{ color: Colors.redError }}>{this.props.auth.loginError}</Text>;
         }
         return;
     }
 
     renderButton() {
         if(this.props.auth.loginLoading) {
-            return <Spinner size="large" />;
+            return <Spinner />;
         }
         return (
             <Button
@@ -74,8 +72,6 @@ class Login extends Component {
     }
 
     attemptLogin() {
-        this.setState({ error: '' });
-
         var value = this.refs.form.getValue();
         if (value) {
             const { email, password } = value;
@@ -124,16 +120,6 @@ class Login extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    errorTextStyle: {
-        color: Colors.errorRed,
-        fontFamily: Fonts.primaryFont,
-        fontSize: 15,
-        marginLeft: 20,
-        marginBottom: 10
-    }
-});
 
 const mapStateToProps = ({ auth }) => {
     return { auth };

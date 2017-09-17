@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import firebase from 'firebase';
 import { Spinner } from 'native-base';
 
 import { Colors, Fonts } from '../config/styles';

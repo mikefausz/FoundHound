@@ -1,19 +1,53 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import firebase from 'firebase';
-import { Container, Content, Form, Item, Input, Label, Button, Text, Header, Left, Right, Body, Title, Icon } from 'native-base';
+import { Container, Content, Button, Text, Header, Left, Right, Body, Title, Icon, Spinner } from 'native-base';
+import t from 'tcomb-form-native';
 
+import { Colors, Fonts } from '../config/styles';
+import formStyles from '../config/formStyles';
 import { createUser } from '../actions';
+
+const Form = t.form.Form;
+const options = {
+    stylesheet: formStyles,
+    fields: {
+        email: {
+            placeholder: 'Email',
+            placeholderTextColor: Colors.greyMedium,
+            autoCapitalize: 'none',
+            autoCorrect: false,
+            keyboardType: 'email-address',
+            underlineColorAndroid: Colors.transparent,
+            error: 'Enter a valid email address'
+        },
+        password: {
+            placeholder: 'Password',
+            placeholderTextColor: Colors.greyMedium,
+            autoCapitalize: 'none',
+            autoCorrect: false,
+            secureTextEntry: true,
+            underlineColorAndroid: Colors.transparent,
+            error: 'Password must be at least 6 characters'
+        },
+        confirmPassword: {
+            placeholder: 'Confirm Password',
+            placeholderTextColor: Colors.greyMedium,
+            autoCapitalize: 'none',
+            autoCorrect: false,
+            secureTextEntry: true,
+            underlineColorAndroid: Colors.transparent,
+            error: 'Passwords do not match'
+        }
+    }
+};
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            email: '',
-            password: '',
-            confirmPassword: ''
+            value: {}
         }
     }
 
@@ -23,23 +57,46 @@ class SignUp extends Component {
         }
     }
 
+    onChange(value) {
+        this.setState({ value });
+    }
+
+    renderServerError() {
+        if(this.props.auth.signUpError) {
+            return <Text style={{ color: Colors.redError }}>{this.props.auth.signUpError}</Text>;
+        }
+        return;
+    }
+
     renderButton() {
-        if(this.props.auth.loading) {
-            return <Spinner size="large" />;
+        if(this.props.auth.signUpLoading) {
+            return <Spinner />;
         }
         return (
-            <Button onPress={this.attemptSignUp.bind(this)}>
-                Sign Up
+            <Button
+                block
+                style={{ marginTop: 20 }}
+                onPress={()=> this.attemptSignUp()}>
+                    <Text>Sign Up</Text>
             </Button>
         );
     }
 
     attemptSignUp() {
-        const { email, password } = this.state;
-        this.props.createUser({ email, password });
+        var value = this.refs.form.getValue();
+        if (value) {
+            const { email, password } = value;
+            this.props.createUser({ email, password });
+        }
     }
 
     render() {
+        const NewUser = t.struct({
+            email: t.String,
+            password: t.String,
+            confirmPassword: t.String
+        });
+
         return (
             <Container>
                 <Header>
@@ -54,35 +111,17 @@ class SignUp extends Component {
                     <Right />
                 </Header>
                 <Content padder={true}>
-                    <Form>
-                        <Item fixedLabel>
-                            <Label>Email</Label>
-                            <Input
-                                autoCapitalize={'none'}
-                                onChangeText={email => this.setState({ email })}
-                                value={this.state.email}
-                            />
-                        </Item>
-                        <Item fixedLabel>
-                            <Label>Password</Label>
-                            <Input
-                                secureTextEntry={true}
-                                onChangeText={password => this.setState({ password })}
-                                value={this.state.password}
-                            />
-                        </Item>
-                        <Item fixedLabel last>
-                            <Label>Confirm Password</Label>
-                            <Input
-                                secureTextEntry={true}
-                                onChangeText={confirmPassword => this.setState({ confirmPassword })}
-                                value={this.state.confirmPassword}
-                            />
-                        </Item>
-                        <Button block style={{ marginTop: 20 }} onPress={()=> this.attemptSignUp()}>
-                            <Text>Sign Up</Text>
-                        </Button>
-                    </Form>
+                    <Form
+                        ref="form"
+                        type={NewUser}
+                        options={options}
+                        value={this.state.value}
+                        onChange={this.onChange.bind(this)}
+                    />
+
+                    {this.renderServerError()}
+
+                    {this.renderButton()}
                 </Content>
             </Container>
         );

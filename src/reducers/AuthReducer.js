@@ -31,9 +31,9 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_FAIL:
             return { ...INITIAL_STATE, loginError: action.payload };
         case CREATE_USER:
-            return { ...INITIAL_STATE, createLoading: true };
+            return { ...INITIAL_STATE, signUpLoading: true };
         case CREATE_USER_FAIL:
-            return { ...INITIAL_STATE, createError: action.payload };
+            return { ...INITIAL_STATE, signUpError: action.payload };
         case GET_USER_SUCCESS:
         case LOGIN_USER_SUCCESS:
         case CREATE_USER_SUCCESS:

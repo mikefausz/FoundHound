@@ -9,11 +9,11 @@ import { Platform } from 'react-native';
 
 import { Colors, Fonts } from './styles';
 
-var LABEL_COLOR = Colors.darkGrey;
+var LABEL_COLOR = Colors.greyDark;
 var INPUT_COLOR = Colors.black;
-var ERROR_COLOR = Colors.errorRed;
+var ERROR_COLOR = Colors.redError;
 var HELP_COLOR = '#999999';
-var BORDER_COLOR = Colors.darkGrey;
+var BORDER_COLOR = Colors.greyDark;
 var DISABLED_COLOR = '#777777';
 var DISABLED_BACKGROUND_COLOR = '#eeeeee';
 var FONT_SIZE = 17;

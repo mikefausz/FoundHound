@@ -23,12 +23,12 @@ export const getUser = (id) => {
         var userRef = firebase.database().ref('users/' + id);
         userRef.once('value')
             .then(function(snapshot) {
-                console.log('Got user profile', snapshot.val());
+                console.log('Get User SUCCESS', snapshot.val());
                 getUserSuccess(dispatch, snapshot.val());
             })
             .catch((err) => {
-                console.log('ERROR', err);
-                getUserFail(dispatch, err);
+                console.log('Get User ERROR', err);
+                getUserFail(dispatch, err.message);
             });
     };
 };
@@ -59,17 +59,17 @@ export const loginUser = ({ email, password }) => {
                 var userRef = firebase.database().ref('users/' + user.uid);
                 userRef.once('value')
                     .then(function(snapshot) {
-                        console.log('Got user profile', snapshot.val());
+                        console.log('Get User SUCCESS', snapshot.val());
                         loginUserSuccess(dispatch, snapshot.val());
                     })
                     .catch((err) => {
-                        console.log('ERROR', err);
-                        loginUserFail(dispatch, err);
+                        console.log('Get User ERROR', err);
+                        loginUserFail(dispatch, err.message);
                     });
             })
-            .catch(error => {
-                console.log(error);
-                loginUserFail(dispatch, err);
+            .catch(err => {
+                console.log('Login ERROR', err);
+                loginUserFail(dispatch, err.message);
             });
     };
 };
@@ -97,7 +97,8 @@ export const createUser = ({ email, password }) => {
 
                 // User successfully created
                 console.log('Created user: ' + user.uid + ', adding user profile to db...');
-
+                AsyncStorage.setItem('user_id', user.uid);
+                
                 // Create new user profile
                 const newUser = {
                     _id: user.uid,
@@ -108,15 +109,18 @@ export const createUser = ({ email, password }) => {
                 const userRef = firebase.database().ref('users/' + user.uid);
                 userRef.set(newUser)
                     .then(() => {
+                        console.log('Create User SUCCESS');
                         createUserSuccess(dispatch, newUser);
-                        console.log('Added user to db');
                     })
                     .catch((err) => {
-                        createUserFail(dispatch, err);
-                        console.log('ERROR', err);
+                        console.log('Save User ERROR', err);
+                        createUserFail(dispatch, err.message);
                     });
             })
-            .catch(error => console.log(error));
+            .catch(err => {
+                console.log('Sign Up ERROR', err);
+                createUserFail(dispatch, err.message);
+            });
     };
 };
 
