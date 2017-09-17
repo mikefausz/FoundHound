@@ -36,3 +36,8 @@ export const SCANS_FETCH_FAIL     = 'scans_fetch_fail';
 export const SCAN_FETCH           = 'scan_fetch';
 export const SCAN_FETCH_SUCCESS   = 'scan_fetch_success';
 export const SCAN_FETCH_FAIL      = 'scan_fetch_fail';
+
+// Auth action types
+export const SAVE_USER            = 'save_user';
+export const SAVE_USER_SUCCESS    = 'save_user_success';
+export const SAVE_USER_FAIL       = 'save_user_fail';

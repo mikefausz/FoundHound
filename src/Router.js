@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
+import { Scene, Router, Actions } from 'react-native-router-flux';
 
 import Landing from './components/Landing';
 import Login from './components/Login';
@@ -21,7 +21,7 @@ const RouterComponent = () => {
 
             <Scene key="root">
 
-                <Scene key="auth" initial={true} type={ActionConst.RESET} hideNavBar>
+                <Scene key="auth" hideNavBar initial={true}>
                     <Scene
                         key="landing"
                         component={Landing} />

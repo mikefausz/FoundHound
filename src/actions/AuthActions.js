@@ -11,7 +11,10 @@ import {
     LOGIN_USER_FAIL,
     CREATE_USER,
     CREATE_USER_SUCCESS,
-    CREATE_USER_FAIL
+    CREATE_USER_FAIL,
+    SAVE_USER,
+    SAVE_USER_SUCCESS,
+    SAVE_USER_FAIL
 } from './types';
 
 
@@ -98,7 +101,7 @@ export const createUser = ({ email, password }) => {
                 // User successfully created
                 console.log('Created user: ' + user.uid + ', adding user profile to db...');
                 AsyncStorage.setItem('user_id', user.uid);
-                
+
                 // Create new user profile
                 const newUser = {
                     _id: user.uid,
@@ -134,6 +137,39 @@ const createUserSuccess = (dispatch, user) => {
 const createUserFail = (dispatch, err) => {
     dispatch({
         type: CREATE_USER_FAIL,
+        payload: err
+    });
+}
+
+export const saveUser = (user) => {
+    return(dispatch) => {
+        dispatch({ type: SAVE_USER });
+
+        console.log('yo', user);
+        // User successfully signed in, get profile from db and redirect
+        const userRef = firebase.database().ref('users/' + user._id);
+        userRef.set(user)
+            .then(() => {
+                console.log('Save User SUCCESS');
+                saveUserSuccess(dispatch, user);
+            })
+            .catch((err) => {
+                console.log('Save User ERROR', err);
+                saveUserSuccess(dispatch, err);
+            });
+    };
+};
+
+const saveUserSuccess = (dispatch, user) => {
+    dispatch({
+        type: SAVE_USER_SUCCESS,
+        payload: user
+    });
+}
+
+const saveUserFail = (dispatch, err) => {
+    dispatch({
+        type: SAVE_USER_FAIL,
         payload: err
     });
 }

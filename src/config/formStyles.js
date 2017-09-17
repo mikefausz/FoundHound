@@ -14,7 +14,7 @@ var INPUT_COLOR = Colors.black;
 var ERROR_COLOR = Colors.redError;
 var HELP_COLOR = '#999999';
 var BORDER_COLOR = Colors.greyDark;
-var DISABLED_COLOR = '#777777';
+var DISABLED_COLOR = Colors.greyDark;
 var DISABLED_BACKGROUND_COLOR = '#eeeeee';
 var FONT_SIZE = 17;
 var FONT_WEIGHT = '400';
@@ -106,7 +106,7 @@ var stylesheet = Object.freeze({
             marginLeft: -4,
             marginBottom: 5,
             color: DISABLED_COLOR,
-            backgroundColor: DISABLED_BACKGROUND_COLOR
+            // backgroundColor: DISABLED_BACKGROUND_COLOR
         }
     },
     checkbox: {
@@ -118,15 +118,23 @@ var stylesheet = Object.freeze({
             marginBottom: 4
         }
     },
+    pickerView: {
+        normal: {
+            borderColor: BORDER_COLOR,
+            borderBottomWidth: 1
+        },
+        error: {
+            borderColor: ERROR_COLOR,
+            borderBottomWidth: 1
+        },
+    },
     pickerContainer: {
         normal: {
-            marginBottom: 4,
             borderRadius: 4,
             borderColor: BORDER_COLOR,
             borderWidth: 1
         },
         error: {
-            marginBottom: 4,
             borderRadius: 4,
             borderColor: ERROR_COLOR,
             borderWidth: 1
@@ -138,7 +146,8 @@ var stylesheet = Object.freeze({
     select: {
         normal: Platform.select({
             android: {
-                paddingLeft: 7,
+                // paddingLeft: 7
+                marginLeft: -8,
                 color: INPUT_COLOR
             },
             ios: {
@@ -148,7 +157,8 @@ var stylesheet = Object.freeze({
         // the style applied when a validation error occours
         error: Platform.select({
             android: {
-                paddingLeft: 7,
+              // paddingLeft: 7,
+                marginLeft: -8,
                 color: ERROR_COLOR
             },
             ios: {
