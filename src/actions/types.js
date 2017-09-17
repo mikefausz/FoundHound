@@ -1,7 +1,15 @@
 // Auth action types
+export const GET_USER             = 'get_user';
+export const GET_USER_SUCCESS     = 'get_user_success';
+export const GET_USER_FAIL        = 'get_user_fail';
+
 export const LOGIN_USER           = 'login_user';
 export const LOGIN_USER_SUCCESS   = 'login_user_success';
 export const LOGIN_USER_FAIL      = 'login_user_fail';
+
+export const CREATE_USER          = 'create_user';
+export const CREATE_USER_SUCCESS  = 'create_user_success';
+export const CREATE_USER_FAIL     = 'create_user_fail';
 
 // Pet action types
 export const PET_FETCH            = 'pet_fetch';

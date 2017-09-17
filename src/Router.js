@@ -1,7 +1,9 @@
 import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 
-import LoginForm from './components/LoginForm';
+import Landing from './components/Landing';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 import PetScanner from './components/PetScanner';
 import PetFound from './components/PetFound';
 import PetList from './components/PetList';
@@ -21,49 +23,45 @@ const RouterComponent = () => {
 
                 <Scene key="auth" hideNavBar initial={true}>
                     <Scene
+                        key="landing"
+                        component={Landing} />
+                    <Scene
                         key="login"
-                        component={LoginForm}
-                    />
+                        component={Login} />
+                    <Scene
+                        key="sign_up"
+                        component={SignUp} />
                 </Scene>
 
                 <Scene key="drawer" component={NavigationDrawer} open={false} hideNavBar>
                     <Scene key="main" tabs={true}>
                         <Scene
                             key="pet_list"
-                            component={PetList}
-                        />
+                            component={PetList} />
                         <Scene
                             key="pet_detail"
-                            component={PetDetail}
-                        />
+                            component={PetDetail} />
                         <Scene
                             key="pet_scan_list"
-                            component={PetScanList}
-                        />
+                            component={PetScanList} />
                         <Scene
                             key="pet_scan_detail"
-                            component={PetScanDetail}
-                        />
+                            component={PetScanDetail} />
                         <Scene
                             key="pet_create"
-                            component={PetCreate}
-                        />
+                            component={PetCreate} />
                         <Scene
                             key="pet_edit"
-                            component={PetCreate}
-                        />
+                            component={PetCreate} />
                         <Scene
                             key="pet_scan"
-                            component={PetScanner}
-                        />
+                            component={PetScanner} />
                         <Scene
                             key="profile_detail"
-                            component={ProfileDetail}
-                        />
+                            component={ProfileDetail} />
                         <Scene
                             key="profile_edit"
-                            component={ProfileEdit}
-                        />
+                            component={ProfileEdit} />
                     </Scene>
                 </Scene>
             </Scene>

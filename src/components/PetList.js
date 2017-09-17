@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { View, Dimensions } from 'react-native';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body, Spinner } from 'native-base';
-import firebase from 'firebase';
 
 import { petsFetch } from '../actions';
 
@@ -15,18 +14,24 @@ class PetList extends Component {
 
     renderContent() {
         const { pets } = this.props;
+        const { height: screenHeight } = Dimensions.get('window');
 
+        console.log('petters', pets);
         if(pets.loading) {
-            const { height: screenHeight } = Dimensions.get('window');
-
             return (
                 <View style={{ flex: 1, height: screenHeight, justifyContent: 'center'}}>
-                    <Spinner color='blue' />
+                    <Spinner />
                 </View>
             );
         }
 
-        // TODO Display 'No pets added' message if pets.length = 0
+        else if(pets.all === null || pets.all.length === 0) {
+            return (
+                <View style={{ flex: 1, height: screenHeight, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>You haven't added any pets.</Text>
+                </View>
+            );
+        }
 
         return (
             <List dataArray={pets.all}
@@ -54,6 +59,7 @@ class PetList extends Component {
 
     render() {
         return (
+
             <Container>
                 <Header>
                     <Left>

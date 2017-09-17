@@ -5,16 +5,16 @@ import { View } from 'react-native';
 import { Container, Content, List, ListItem, Text, Icon, Thumbnail, Badge, Left, Body, Right, Footer, H3 } from 'native-base';
 
 class SideMenu extends Component {
-    render() {
-        const {
-          first_name,
-          last_name,
-          email,
-          image
-        } = this.props.user;
+    renderContent() {
+        if(this.props.user) {
+            const {
+              first_name,
+              last_name,
+              email,
+              image
+            } = this.props.user;
 
-        return (
-            <Container>
+            return (
                 <Content>
                     <View style={styles.headerStyle}>
                         <Thumbnail large source={{ uri: image || 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png' }} />
@@ -69,6 +69,14 @@ class SideMenu extends Component {
                         </ListItem>
                     </List>
                 </Content>
+            );
+        }
+        return;
+    }
+    render() {
+        return (
+            <Container>
+                {this.renderContent()}
             </Container>
         );
     }

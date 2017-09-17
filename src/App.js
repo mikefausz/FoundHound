@@ -7,7 +7,6 @@ import ReduxThunk from 'redux-thunk';
 import Config from 'react-native-config'
 
 import reducers from './reducers';
-import LoginForm from './components/LoginForm';
 import Router from './Router';
 
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
