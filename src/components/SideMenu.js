@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import { Container, Content, List, ListItem, Text, Icon, Thumbnail, Badge, Left, Body, Right, Footer, H3 } from 'native-base';
 
 class SideMenu extends Component {
+    signOut() {
+        AsyncStorage.removeItem('user_id');
+        Actions.auth();
+    }
+
     renderContent() {
         if(this.props.user) {
             const {
@@ -58,7 +63,7 @@ class SideMenu extends Component {
                             </Body>
                             <Right/>
                         </ListItem>
-                        <ListItem icon onPress={()=> Actions.auth()}>
+                        <ListItem icon onPress={()=> this.signOut()}>
                             <Left>
                                 <Icon name="log-out" />
                             </Left>
