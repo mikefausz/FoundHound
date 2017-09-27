@@ -10,9 +10,6 @@ class SideMenu extends Component {
         Actions.auth();
     }
 
-    navigate() {
-    Actions.pet_scan(); Actions.drawerClose()
-  }
     renderContent() {
         if(this.props.user) {
             const {
@@ -30,7 +27,7 @@ class SideMenu extends Component {
                     </View>
 
                     <List>
-                        <ListItem icon onPress={()=> this.navigate()}>
+                        <ListItem icon onPress={()=> Actions.pet_scan()}>
                             <Left>
                                 <Icon name="qr-scanner" />
                             </Left>

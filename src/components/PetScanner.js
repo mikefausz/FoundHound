@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import NFC, { NfcDataType, NdefRecordType } from 'react-native-nfc';
-import firebase from 'firebase';
-import { View, Image, ToastAndroid } from 'react-native';
+import { View, Image, ToastAndroid, DeviceEventEmitter } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Header, Left, Body, Right, Title, Button, Text, Icon, H2, Thumbnail } from 'native-base';
+import firebase from 'firebase';
 
 class PetScanner extends Component {
 
@@ -50,7 +50,7 @@ class PetScanner extends Component {
                                       // Pet found, route to detail
                                       if(pet) {
                                           ToastAndroid.show(
-                                              `Found pet ${pet.name}!`,
+                                              `Found pet ${pet.name}! The owner has been notified.`,
                                               ToastAndroid.SHORT
                                           );
 

@@ -131,6 +131,7 @@ android {
 }
 
 dependencies {
+    compile project(':nfc-react-native')
     compile project(':react-native-image-picker')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-nfc')
