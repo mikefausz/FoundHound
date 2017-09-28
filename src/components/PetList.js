@@ -1,15 +1,59 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Alert } from 'react-native';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, Left, Right, Body, Spinner } from 'native-base';
+import PushNotification from 'react-native-push-notification';
+import Config from 'react-native-config';
 
-import { petsFetch } from '../actions';
+import { petsFetch, setFCMToken } from '../actions';
 
 class PetList extends Component {
 
     componentWillMount() {
-        this.props.petsFetch({ userId: this.props.user._id });
+        const { petsFetch, user } = this.props;
+
+        petsFetch({ userId: user._id });
+
+        PushNotification.configure({
+
+            // (optional) Called when Token is generated (iOS and Android)
+            onRegister: function(token) {
+                console.log( 'TOKEN:', token );
+
+                // Save token to user
+                setFCMToken(user, token.token);
+            },
+
+            // (required) Called when a remote or local notification is opened or received
+            onNotification: function(notification) {
+                console.log( 'NOTIFICATION:', notification );
+                if(notification.foreground) {
+                    Alert.alert(notification['gcm.notification.title'], notification['gcm.notification.body']);
+                }
+            },
+
+            // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+            senderID: Config.FIREBASE_MESSAGING_SENDER_ID,
+
+            // IOS ONLY (optional): default: all - Permissions to register.
+            permissions: {
+                alert: true,
+                badge: true,
+                sound: true
+            },
+
+            // Should the initial notification be popped automatically
+            // default: true
+            popInitialNotification: true,
+
+            /**
+              * (optional) default: true
+              * - Specified if permissions (ios) and token (android and ios) will requested or not,
+              * - if not, you must call PushNotificationsHandler.requestPermissions() later
+              */
+            requestPermissions: true,
+        });
     }
 
     renderContent() {
@@ -90,4 +134,4 @@ const mapStateToProps = ({ auth, pets }) => {
     };
 };
 
-export default connect(mapStateToProps, { petsFetch })(PetList);
+export default connect(mapStateToProps, { petsFetch, setFCMToken })(PetList);

@@ -15,7 +15,9 @@ import {
     SAVE_USER,
     SAVE_USER_SUCCESS,
     SAVE_USER_FAIL,
-    SET_PROFILE_PICTURE
+    SET_PROFILE_PICTURE,
+    SET_FCM_TOKEN,
+    SET_FCM_TOKEN_SUCCESS
 } from './types';
 
 
@@ -60,7 +62,7 @@ export const loginUser = ({ email, password }) => {
 
                 // User successfully signed in, get profile from db and redirect
                 AsyncStorage.setItem('user_id', user.uid);
-                var userRef = firebase.database().ref('users/' + user.uid);
+                const userRef = firebase.database().ref(`users/${user._id}`);
                 userRef.once('value')
                     .then(function(snapshot) {
                         console.log('Get User SUCCESS', snapshot.val());
@@ -110,7 +112,7 @@ export const createUser = ({ email, password }) => {
                 };
 
                 // Store in db and store in Redux state
-                const userRef = firebase.database().ref('users/' + user.uid);
+                const userRef = firebase.database().ref(`users/${user._id}`);
                 userRef.set(newUser)
                     .then(() => {
                         console.log('Create User SUCCESS');
@@ -147,7 +149,7 @@ export const saveUser = (user) => {
         dispatch({ type: SAVE_USER });
 
         // User successfully signed in, get profile from db and redirect
-        const userRef = firebase.database().ref('users/' + user._id);
+        const userRef = firebase.database().ref(`users/${user._id}`);
         userRef.set(user)
             .then(() => {
                 console.log('Save User SUCCESS');
@@ -179,4 +181,26 @@ export const setProfilePicture = (url) => {
         type: SET_PROFILE_PICTURE,
         payload: url
     };
+}
+
+export const setFCMToken = (user, token) => {
+    return(dispatch) => {
+
+        // Save device FCM registration id to user object
+        const userRef = firebase.database().ref(`users/${user._id}`);
+        userRef.child('fcm_registration_id').set(token)
+            .then(() => {
+                console.log('Set FCM Token SUCCESS');
+            })
+            .catch((err) => {
+                console.log('Set FCM Token ERROR', err);
+            });
+    }
+};
+
+const setFCMTokenSuccess = (dispatch, token) => {
+    dispatch({
+        type: SAVE_USER_SUCCESS,
+        payload: token
+    });
 }

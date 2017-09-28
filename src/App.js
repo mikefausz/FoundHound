@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
-import Config from 'react-native-config'
+import Config from 'react-native-config';
 
 import reducers from './reducers';
 import Router from './Router';
