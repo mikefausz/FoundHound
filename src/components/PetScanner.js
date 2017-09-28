@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import NFC, { NfcDataType, NdefRecordType } from 'react-native-nfc';
-import firebase from 'firebase';
-import { View, Image, ToastAndroid } from 'react-native';
+import { View, Image, ToastAndroid, DeviceEventEmitter } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Container, Content, Header, Left, Body, Right, Title, Button, Text, Icon, H2, Thumbnail } from 'native-base';
+import Config from 'react-native-config';
+import firebase from 'firebase';
 
 class PetScanner extends Component {
 
@@ -50,15 +51,39 @@ class PetScanner extends Component {
                                       // Pet found, route to detail
                                       if(pet) {
                                           ToastAndroid.show(
-                                              `Found pet ${pet.name}!`,
+                                              `Found pet ${pet.name}! The owner has been notified.`,
                                               ToastAndroid.SHORT
                                           );
 
-                                          // TODO Send pet owner scan notification
+                                          // Send pet owner scan notification
+                                          const ownerRef = firebase.database().ref(`users/${pet.owner}/fcm_registration_id`);
+                                          ownerRef.once('value')
+                                              .then(fcmTokenSnapshot => {
+                                                  const fcmToken = fcmTokenSnapshot.val();
+                                                  const req = {
+                                                       notification: {
+                                                           title: 'Hey Mister!',
+                                                           body: 'We found your dog!'
+                                                       },
+                                                       to: fcmToken
+                                                  };
+                                                  console.log('req', req);
+                                                  fetch('https://fcm.googleapis.com/fcm/send', {
+                                                      method: 'POST',
+                                                      headers: {
+                                                          'Authorization': `key=${Config.FIREBASE_MESSAGING_SERVER_ID}`,
+                                                          'Content-Type': 'application/json'
+                                                      },
+                                                      body: JSON.stringify(req)
+                                                  })
+                                                  .then((res) => {
+                                                      console.log('Send FCM notification RESPONSE:', res);
+                                                  });
+                                          });
 
                                           // TODO Write new scan to db
 
-                                          Actions.pet_found({ pet });
+                                          // TODO Redirect
                                       }
                                       // Pet not found
                                       else {

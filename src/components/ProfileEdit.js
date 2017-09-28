@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 import { Container, Content, Header, Left, Body, Thumbnail, Right, Title, Text, Button, Icon, Spinner, View } from 'native-base';
 import t from 'tcomb-form-native';
 import ImagePicker from 'react-native-image-picker';
-import RNFetchBlob from 'react-native-fetch-blob'
+import RNFetchBlob from 'react-native-fetch-blob';
 import firebase from 'firebase';
 
 import { Colors, Fonts } from '../config/styles';
@@ -15,10 +15,10 @@ import { saveUser, setProfilePicture } from '../actions';
 import stateData from '../config/stateData.json';
 
 // Prepare Blob support
-const Blob = RNFetchBlob.polyfill.Blob
-const fs = RNFetchBlob.fs
-window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-window.Blob = Blob
+const Blob = RNFetchBlob.polyfill.Blob;
+const fs = RNFetchBlob.fs;
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
 
 const Form = t.form.Form;
 const options = {
@@ -125,12 +125,15 @@ class ProfileEdit extends Component {
 
             if (response.didCancel) {
                 console.log('User cancelled image picker');
+                this.setState({ isGettingImage: false });
             }
             else if (response.error) {
                 console.log('ImagePicker Error: ', response.error);
+                this.setState({ isGettingImage: false });
             }
             else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
+                this.setState({ isGettingImage: false });
             }
             else {
                 this.uploadImage(response.uri)

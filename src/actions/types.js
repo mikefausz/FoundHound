@@ -17,6 +17,8 @@ export const SAVE_USER_FAIL       = 'save_user_fail';
 
 export const SET_PROFILE_PICTURE  = 'set_profile_picture';
 
+export const SET_FCM_TOKEN        = 'set_fcm_token';
+
 // Pet action types
 export const PET_FETCH            = 'pet_fetch';
 export const PET_FETCH_SUCCESS    = 'pet_fetch_success';

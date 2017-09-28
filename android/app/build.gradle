@@ -131,12 +131,17 @@ android {
 }
 
 dependencies {
+    compile project(':nfc-react-native')
     compile project(':react-native-image-picker')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-nfc')
     compile project(':react-native-vector-icons')
     compile project(':react-native-config')
     compile project(':react-native-lock')
+    compile project(':react-native-push-notification')
+    compile ('com.google.android.gms:play-services-gcm:8.1.0') {
+        force = true;
+    }
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
