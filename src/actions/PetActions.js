@@ -20,7 +20,7 @@ export const petsFetch = ({ userId }) => {
         dispatch({ type: PETS_FETCH });
 
         // Get user's pets from db, update state
-        const userPetsRef = firebase.database().ref('pets/' + userId);
+        const userPetsRef = firebase.database().ref('pets_by_user/' + userId);
         userPetsRef.once('value')
             .then(function(snapshot) {
                 console.log('Got user pets', snapshot.val());
@@ -52,7 +52,7 @@ export const petFetch = ({ userId, petId }) => {
         dispatch({ type: PET_FETCH });
 
         // Get user's pets from db, update state
-        const userPetRef = firebase.database().ref('pets/' + userId + '/' + petId);
+        const userPetRef = firebase.database().ref('pets_by_user/' + userId + '/' + petId);
         userPetRef.once('value')
             .then(function(snapshot) {
                 console.log('Got user pet', snapshot.val());
@@ -84,7 +84,7 @@ export const petCreate = ({ userId, petObj }) => {
     return (dispatch) => {
         dispatch({ type: PET_CREATE });
 
-        const userPetsRef = firebase.database().ref(`pets/${userId}`);
+        const userPetsRef = firebase.database().ref(`pets_by_owner/${userId}`);
         const newPetRef = userPetsRef.push();
 
         console.log(newPetRef);
@@ -96,6 +96,8 @@ export const petCreate = ({ userId, petObj }) => {
                 console.log('Pet Create ERROR', err);
                 petCreateFail(dispatch, err);
             });
+
+        // TODO Create pet under pets_by_tag
     };
 };
 
@@ -118,7 +120,7 @@ export const petUpdate = ({ userId, petObj }) => {
     return (dispatch) => {
         dispatch({ type: PET_UPDATE });
 
-        const userPetRef = firebase.database().ref(`pets/${userId}/${petId}`);
+        const userPetRef = firebase.database().ref(`pets_by_user/${userId}/${petId}`);
 
         userPetRef.set(petObj)
             .then((res) => {
@@ -128,6 +130,8 @@ export const petUpdate = ({ userId, petObj }) => {
                 console.log('Pet Update ERROR', err);
                 petUpdateFail(dispatch, err)
             });
+
+        // TODO Update pet under pets_by_tag
     };
 };
 

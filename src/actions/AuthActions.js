@@ -26,7 +26,7 @@ export const getUser = (id) => {
         dispatch({ type: GET_USER });
 
         // User successfully signed in, get profile from db and redirect
-        var userRef = firebase.database().ref('users/' + id);
+        var userRef = firebase.database().ref(`users/${id}`);
         userRef.once('value')
             .then(function(snapshot) {
                 console.log('Get User SUCCESS', snapshot.val());
