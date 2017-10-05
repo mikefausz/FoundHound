@@ -55,6 +55,7 @@ class PetCreate extends Component {
         super(props);
 
         console.log('props', props);
+
         // If pet provided, fill inputs with current value (edit)
         this.state = {
             value: props.pet ? props.pet : {},
@@ -178,26 +179,37 @@ class PetCreate extends Component {
         );
     }
 
+    // TODO Promisify this function
     attemptSavePet() {
         var value = this.refs.form.getValue();
         if (value) {
             this.setState({ loading: true, error: '' });
             console.log('form value', value);
+            console.log('state value', this.state.value);
+            console.log('props', this.props);
+            const { user, name, pet } = this.props;
+            let tagId = this.props.tagId ? this.props.tagId : this.props.pet.tag_id;
 
-            const newPet = {
+            // Create new pet profile
+            let newPet = {
                 name: value.name,
                 age: value.age,
                 breed: value.breed,
-                color: value.color
+                color: value.color,
+                tag_id: tagId,
+                owner_id: user._id
             };
 
-            // TODO Pull in actual user ID
-            const userPetsRef = firebase.database().ref('pets/uBT0kMeeBZXRSCkrxi6GYFcLgtO2');
-            // const userPetsRef = firebase.database().ref(`pets/${this.props.user._id}`);
+            const userPetsRef = firebase.database().ref(`pets_by_user/${user._id}`);
+            const tagRef = firebase.database().ref(`tags/${tagId}`);
+            const tagPetRef = tagRef.child(`pet`);
 
             if(this.props.name == 'pet_create') {
+
                 const newPetRef = userPetsRef.push();
                 const newPetId = newPetRef.key;
+
+                // Create pet under user ID
                 console.log(newPetRef);
                 newPetRef.set({ ...newPet, _id: newPetId })
                     .then(() => {
@@ -205,36 +217,87 @@ class PetCreate extends Component {
                         this.uploadImage(newPetId, this.state.imageUri)
                             .then(url => {
 
-                                const userRef = firebase.database().ref(`pets/uBT0kMeeBZXRSCkrxi6GYFcLgtO2/${newPetId}/image`);
-                                userRef.set(url)
+                                // Upload profile picture
+                                const petImageRef = userPetsRef.child(`${newPetId}/image`);
+                                petImageRef.set(url)
                                     .then(() => {
                                         console.log('Save Profile Picture SUCCESS');
                                         this.setState({ loading: false });
-                                        Actions.pet_create_scan({ petId: newPetId });
+                                        Actions.pet_list();
                                     })
                                     .catch((err) => {
                                         console.log('Save Profile Picture ERROR', err);
                                         this.setState({ loading: false, error: err });
                                     });
-                            })
+                            });
                     })
                     .catch((err) => {
                         console.log('ERROR', err);
                         this.setState({ loading: false, error: err });
                     });
+
+                // Add pet reference to tag object
+                tagPetRef.set(newPet)
+                    .then(() => {
+                        console.log('SUCCESS');
+                    })
+                    .catch((err) => {
+                        console.log('ERROR', err);
+                    });
+
+                // Set assigned_at on tag object
+                tagRef.child('assigned_at').set(new Date().toISOString())
+                    .then((data) => {
+                        console.log('SUCCESS', data);
+                    }).catch((err) => {
+                        console.log('ERROR', err);
+                    });
             }
             else {
-                const editPetRef = userPetsRef.child(this.state.pet.$id);
-                editPetRef.set(this.state)
+                const editPetId = this.props.pet._id;
+                const editUserPetRef = userPetsRef.child(editPetId);
+                if(!this.state.imageUri) {
+                    newPet.image = pet.image;
+                }
+                newPet._id = editPetId;
+
+                // Save pet under user ID
+                editUserPetRef.set(newPet)
                     .then((data) => {
                         console.log('SUCCESS', data);
 
-                        // TODO Handle change photo
-                        this.setState({ loading: false });
-                        Actions.pet_detail({ pet: this.props.pet });
+                        // If changed, upload profile picture
+                        if(this.state.imageUri) {
+                            this.uploadImage(editPetId, this.state.imageUri)
+                                .then(url => {
+
+                                    const petImageRef = userPetsRef.child(`${editPetId}/image`);
+                                    petImageRef.set(url)
+                                        .then(() => {
+                                            console.log('Save Profile Picture SUCCESS');
+                                            this.setState({ loading: false });
+                                            Actions.pet_list();
+                                        })
+                                        .catch((err) => {
+                                            console.log('Save Profile Picture ERROR', err);
+                                            this.setState({ loading: false, error: err });
+                                        });
+                                })
+                        } else {
+                            this.setState({ loading: false });
+                            Actions.pet_list();
+                        }
                     }).catch((err) => {
                         console.log('ERROR', err);
                         this.setState({ loading: false, error: err });
+                    });
+
+                // Save pet under tag ID
+                tagPetRef.set(newPet)
+                    .then((data) => {
+                        console.log('SUCCESS', data);
+                    }).catch((err) => {
+                        console.log('ERROR', err);
                     });
             }
         }
@@ -246,6 +309,20 @@ class PetCreate extends Component {
         }
         else {
             Actions.pet_detail({ pet: this.props.pet });
+        }
+    }
+
+    getDisplayImage() {
+        const { pet } = this.props;
+
+        if(this.state.imageDisplay) {
+            return this.state.imageDisplay;
+        }
+        else if(pet && pet.image) {
+            return pet.image;
+        }
+        else {
+            return 'https://www.barkworthies.com/Themes/Barkworthies/Content/images/defult-dog.png';
         }
     }
 
@@ -268,7 +345,7 @@ class PetCreate extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Your Profile</Title>
+                        <Title>Pet Profile</Title>
                     </Body>
                     <Right />
                 </Header>
@@ -276,7 +353,7 @@ class PetCreate extends Component {
                     <Thumbnail
                         large
                         style={{ alignSelf: 'center', marginTop: 20 }}
-                        source={{ uri: imageDisplay || 'https://www.barkworthies.com/Themes/Barkworthies/Content/images/defult-dog.png' }} />
+                        source={{ uri: this.getDisplayImage() }} />
 
                     {this.renderImagePickerButton()}
 
@@ -299,9 +376,10 @@ class PetCreate extends Component {
     }
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth, pet }) => {
     return {
-      pet: state.pet.selected
+        user: auth.user,
+        pet: pet.selected
     };
 };
 

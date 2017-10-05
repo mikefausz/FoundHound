@@ -29,26 +29,29 @@ class PetCreateScan extends Component {
                     let r = records[j];
                     if (r.type === NdefRecordType.TEXT) {
                         const tagId = r.data;
+                        const tag = {
+                            _id: tagId,
+                            created_at: new Date().toISOString()
+                        };
 
                         this.setState({ loading: true, error: '' });
 
-                        const { petId } = this.props.petId;
                         ToastAndroid.show(
-                            `Found tag ${tagId}, linking to pet ${petId}...`,
+                            `Found tag ${tagId}, creating in db...`,
                             ToastAndroid.SHORT
                         );
 
                         // Add pet ID to tag
                         const tagRef = firebase.database().ref(`tags/${tagId}`);
-                        tagRef.child('pet_id').set(petId)
+                        tagRef.set(tag)
                             .then((data) => {
                                 this.setState({ loading: false });
                                 ToastAndroid.show(
-                                    `Tag successfully linked to pet ${petId}!`,
+                                    `Tag successfully created!`,
                                     ToastAndroid.SHORT
                                 );
                                 console.log('SUCCESS', data);
-                                Actions.pet_list();
+                                Actions.pet_create({ tagId });
                             }).catch((err) => {
                                 console.log('ERROR', err);
                                 this.setState({ loading: false, error: err });

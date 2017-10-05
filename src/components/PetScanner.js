@@ -29,13 +29,13 @@ class PetScanner extends Component {
                         );
 
                         // Get pet ID associated with tag
-                        const tagPetRef = firebase.database().ref(`pets_by_tag/${tagId}`);
-                        tagPetRef.once('value')
-                            .then(petSnapshot => {
-                                const pet = petSnapshot.val();
-
-                                console.log(petSnapshot);
-                                console.log(petSnapshot.val());
+                        const tagRef = firebase.database().ref(`tags/${tagId}`);
+                        tagRef.once('value')
+                            .then(tagSnapshot => {
+                                const tag = tagSnapshot.val();
+                                const pet = tag.pet;
+                                console.log(tagSnapshot);
+                                console.log(tagSnapshot.val());
 
                                 ToastAndroid.show(
                                     `Found pet ${pet._id}! We have notified the owner.`,

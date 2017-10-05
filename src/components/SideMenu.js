@@ -45,7 +45,7 @@ class SideMenu extends Component {
                             </Body>
                             <Right/>
                         </ListItem>
-                        <ListItem icon onPress={()=> Actions.pet_create()}>
+                        <ListItem icon onPress={()=> Actions.pet_create_scan()}>
                             <Left>
                                 <Icon name="add" />
                             </Left>

@@ -10,6 +10,7 @@ import { petFetch } from '../actions';
 class PetDetail extends Component {
 
     componentDidMount() {
+        console.log('yopr', this.props);
         this.newPetFetch(this.props);
     }
 
@@ -19,10 +20,9 @@ class PetDetail extends Component {
         }
     }
 
-    newPetFetch(props) {
-        const { petFetch, user, petId } = props;
+    newPetFetch({ petFetch, user, petId }) {
 
-        petFetch({ userId: user._id, petId })
+        petFetch({ userId: user._id, petId });
     }
 
     renderContent() {
@@ -51,7 +51,7 @@ class PetDetail extends Component {
             <Card style={{ flex: 0 }}>
                 <CardItem header>
                     <Left>
-                        <Thumbnail source={{ uri: image}} />
+                        <Thumbnail source={{ uri: image }} />
                         <Body>
                             <Text>{name}</Text>
                             <Text note>{breed}</Text>
@@ -84,11 +84,17 @@ class PetDetail extends Component {
                 </CardItem>
                 <CardItem footer>
                     <Body>
-                        <Button block onPress={() => Actions.pet_scan_list({ pet: pet.selected })}>
-                            <Text>See Scan History</Text>
+                        <Button
+                            block
+                            onPress={() => Actions.pet_scan_list({ pet: pet.selected })}>
+                                <Text>See Scan History</Text>
                         </Button>
-                        <Button block danger onPress={() => this.markLost()}>
-                            <Text>Mark as Lost</Text>
+                        <Button
+                            block
+                            danger
+                            style={{ marginTop: 20 }}
+                            onPress={() => this.markLost()}>
+                                <Text>Mark as Lost</Text>
                         </Button>
                     </Body>
                 </CardItem>

@@ -79,10 +79,10 @@ class PetList extends Component {
         return (
             <List dataArray={pets.all}
                  renderRow={(pet) => {
-                     const { name, age, breed, image } = pet;
+                     const { name, age, breed, image, _id } = pet;
 
                      return(
-                         <ListItem avatar onPress={() => Actions.pet_detail({ petId: pet._id })}>
+                         <ListItem avatar onPress={() => Actions.pet_detail({ petId: _id })}>
                              <Left>
                                  <Thumbnail source={{ uri: image }} />
                              </Left>
@@ -114,7 +114,7 @@ class PetList extends Component {
                         <Title>Your Pets</Title>
                     </Body>
                     <Right>
-                        <Button transparent onPress={() => Actions.pet_create()}>
+                        <Button transparent onPress={() => Actions.pet_create_scan()}>
                             <Text>Add Pet</Text>
                         </Button>
                     </Right>
